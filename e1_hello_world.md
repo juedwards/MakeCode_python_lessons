@@ -1,3 +1,5 @@
+![Minecraft Education Logo](images/education-minecraft-logo.png)
+
 ## 🎮 Exercise 1: Say Hello in Minecraft!
 
 ### 👋 What You’ll Learn
