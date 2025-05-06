@@ -28,11 +28,18 @@ You’ll write **MakeCode Python** — a super fun version of the Python languag
 
 1. Open Minecraft Education.
 
-![image](https://github.com/user-attachments/assets/e9df07aa-523e-4c82-9e43-d8817bb0637c)
-
+![image](https://github.com/user-attachments/assets/59fc8672-fc24-4f37-bfff-910ec5b6189e)
 
 3. Enter a world or create a new one.
+
+![image](https://github.com/user-attachments/assets/97b35ec5-e0fe-4fd6-a02b-f80fce5a6c0d)
+
+![image](https://github.com/user-attachments/assets/e794f98e-dcab-41cf-b55c-4e4f35c2bd33)
+
 4. Press the **C key** on your keyboard — this opens the **Code Builder**.
+
+
+
 5. Choose **MakeCode** and then click on **Python** (not blocks or JavaScript).
 
 ---
