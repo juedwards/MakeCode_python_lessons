@@ -1,3 +1,5 @@
+![Minecraft Education Logo](images/education-minecraft-logo.png)
+
 ## 🧱 Exercise 3: Placing and Building with Blocks!
 
 ### 🎯 What You’ll Learn
