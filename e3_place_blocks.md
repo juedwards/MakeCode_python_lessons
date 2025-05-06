@@ -59,10 +59,6 @@ Let's take a moment to understand what is happening. In Minecraft, your player i
 
 Together, these three numbers are called your **position**. Think of it like your Minecraft GPS!
 
----
-
-### 💬 So What Does `player.position()` Do?
-
 ```python
 player.position()
 ```
@@ -83,10 +79,6 @@ That means:
 * Y = 4 (height)
 * Z = 8 (forward/back)
 
----
-
-### 🧱 Example: Place a Block at Your Feet
-
 ```python
 blocks.place(STONE, player.position())
 ```
@@ -98,8 +90,6 @@ This means:
 ✅ You didn’t have to guess the X, Y, Z — the game figured it out!
 
 ---
-
-### 🔁 You Can Also Change the Position
 
 Want to place a block **just above** the player?
 
@@ -124,6 +114,8 @@ blocks.place(GOLD_BLOCK, positions.create(2, 0, 2))
 ```
 
 📍 This puts a gold block **2 blocks right and 2 blocks forward** from the starting point.
+
+![image](https://github.com/user-attachments/assets/f8aaed7c-d273-4ddd-8fd4-f13925a264e2)
 
 ---
 
