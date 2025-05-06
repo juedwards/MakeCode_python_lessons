@@ -16,6 +16,8 @@ In this activity, you’ll learn how to:
 
 Minecraft Education has a special tool called **Code Builder** that lets you write code to do cool things in the game—like build stuff, teleport, or talk!
 
+![Code Builder Window](images/Code_builder_window_1.jpeg)
+
 You’ll write **MakeCode Python** — a super fun version of the Python language made just for Minecraft.
 
 ---
