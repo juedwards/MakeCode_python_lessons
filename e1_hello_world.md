@@ -38,15 +38,25 @@ You’ll write **MakeCode Python** — a super fun version of the Python languag
 
 4. Press the **C key** on your keyboard — this opens the **Code Builder**.
 
+![image](https://github.com/user-attachments/assets/cb024903-3e1b-4085-b7bc-b75426502142)
 
+5. Choose **MakeCode**, start a New Project and give it a name
 
-5. Choose **MakeCode** and then click on **Python** (not blocks or JavaScript).
+![image](https://github.com/user-attachments/assets/24c5d07f-981a-4ea9-8bd1-81566da01f87)
+
+6. Then select **Python** from the drop down menu
+
+![image](https://github.com/user-attachments/assets/21308bf7-3c70-4234-895f-b0cc97810b71)
+
+You are now ready to code in **Python**
+
+![image](https://github.com/user-attachments/assets/1ebf3ef4-3f0f-48d5-8507-aaab4bc093ed)
 
 ---
 
 #### ✅ Step 2: Write Your First Code
 
-In the code editor, type this exactly:
+In the code editor, delete the existing code, and type this exactly:
 
 ```python
 player.say("Hello, Minecraft World!")
@@ -54,13 +64,17 @@ player.say("Hello, Minecraft World!")
 
 This line tells your player to say something in the game chat. The message is inside the quotes.
 
+![image](https://github.com/user-attachments/assets/f0878a86-3d0e-48e1-ba7c-0503ec69e828)
+
 ---
 
 #### ✅ Step 3: Run Your Code
 
 1. Click the **green Play button** in the corner.
-2. Look in the chat window (bottom left of the game screen).
+2. Look in the top left of your game screen.
 3. You should see your message appear, like magic!
+
+![image](https://github.com/user-attachments/assets/13bf9158-d3b4-47c6-a62f-ff33954cc3d5)
 
 ---
 
