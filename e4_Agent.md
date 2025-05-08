@@ -1,4 +1,4 @@
-## 🤖 Exercise 4: Meet Your Minecraft Agent!
+## 🤖 Unit 4: Meet Your Minecraft Agent!
 
 ### 🎯 What You’ll Learn
 
