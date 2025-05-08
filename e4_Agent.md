@@ -1,3 +1,5 @@
+![Minecraft Education Logo](images/education-minecraft-logo.png)
+
 ## 🤖 Unit 4: Meet Your Minecraft Agent!
 
 ### 🎯 What You’ll Learn
