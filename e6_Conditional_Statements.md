@@ -1,4 +1,6 @@
-## ❓ Exercise 6: Making Decisions with Code!
+![Minecraft Education Logo](images/education-minecraft-logo.png)
+
+## Exercise 6: Making Decisions with Code!
 
 ### 🎯 What You’ll Learn
 
@@ -15,7 +17,7 @@ In this activity, you’ll:
 Sometimes we want code to **only do something if a condition is true**.
 
 For example:
-💬 "If it's raining, wear a raincoat."
+💬 "If it's raining, go indoors."
 💬 "If there’s grass, plant a tree."
 
 In coding, we use:
@@ -24,7 +26,7 @@ In coding, we use:
 if something_is_true:
     do_this()
 ```
-
+Notice that the second line is **indented** or moved inwards from the left margin. That means it happens if something is true. 
 ---
 
 ### 🪄 Step-by-Step Instructions
