@@ -95,6 +95,7 @@ def build_walls():
 player.on_chat("wall", build_walls)
 
 ```
+Copy and paste this code to your editor and press RUN. It shuold build a simple 5x5 house with a roof.
 
 ### 🔍 What’s New?
 
