@@ -57,9 +57,59 @@ Let’s break it down:
 Try one or more of these ideas:
 
 ✅ Add a **roof** using another `for` loop.
-✅ Replace `STONE` with a different block (like `WOOD_PLANKS`).
-✅ Add a **door** by leaving a gap in one of the walls.
-✅ Change the wall height by changing the `range(5)` to something bigger!
+
+```python
+# Chat command to build a 5x5 square enclosure with a roof
+def build_walls():
+    agent.teleport_to_player()
+    agent.set_assist(DESTROY_OBSTACLES, True)
+    agent.set_item(STONE, 64, 1)
+    agent.set_slot(1)
+    agent.move(FORWARD, 1)
+    agent.move(LEFT, 1)
+
+    agent.set_assist(PLACE_ON_MOVE, True)
+
+    # Build 5x5 walls, 5 blocks high
+    for layer in range(5):
+        for side in range(4):
+            agent.move(FORWARD, 5)
+            agent.turn_right()
+        agent.move(UP, 1)
+
+    # Build a flat roof on top
+    agent.set_assist(PLACE_ON_MOVE, True)
+    agent.turn_left()
+    agent.turn_left()  # Face original direction
+    agent.move(FORWARD, 5)
+    agent.turn_right()
+    agent.move(FORWARD, 1)
+
+    # Now build the roof, 5x5 flat area
+    for row in range(5):
+        for col in range(5):
+            agent.move(FORWARD, 1)
+        if row < 4:  # Don't turn after last row
+            if row % 2 == 0:
+                agent.turn_right()
+                agent.move(FORWARD, 1)
+                agent.turn_right()
+            else:
+                agent.turn_left()
+                agent.move(FORWARD, 1)
+                agent.turn_left()
+
+player.on_chat("wall", build_walls)
+```
+
+### 🔍 What’s New?
+
+* The **roof** is built using two nested loops:
+
+  * `row` loop moves across each row.
+  * `col` loop places 5 blocks in each row.
+  * At the end of each row, the Agent **zig-zags** to the next row.
+* The Agent **ends up on top** of the wall before building the roof.
 
 ---
 
