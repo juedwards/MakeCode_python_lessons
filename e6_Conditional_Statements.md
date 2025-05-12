@@ -56,8 +56,8 @@ Now you're ready to go!
 This code checks if the block **under your feet** is grass.
 
 ```python
-if blocks.test_for_block(GRASS, pos(0, -1, 0)):
-    player.say("You’re standing on grass!")
+if agent.inspect(AgentInspection.BLOCK, DOWN) == GRASS:
+    player.say("Agent standing on grass!")
 ```
 
 🧠 `pos(0, -1, 0)` means “1 block below the player.”
@@ -69,11 +69,15 @@ if blocks.test_for_block(GRASS, pos(0, -1, 0)):
 Let’s plant an oak sapling only if the block under the player is grass.
 
 ```python
-if blocks.test_for_block(GRASS, pos(0, -1, 0)):
-    blocks.place(OAK_SAPLING, pos(0, 0, 0))
-    player.say("Tree planted!")
+if agent.inspect(AgentInspection.BLOCK, DOWN) == GRASS:
+    agent.set_slot(1)
+    agent.set_item(OAK_SAPLING, 1, 1)
+    agent.move(FORWARD, 1)
+    agent.place(BACK)
+    player.say("Tree Planted!")
 else:
-    player.say("This spot isn’t grassy enough.")
+    player.say("Not enough grass to plant a tree!")
+
 ```
 
 🌳 The tree gets planted only in the **right place**!
