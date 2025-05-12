@@ -45,7 +45,3 @@
 * **Accessible to beginners** through scaffolding and visual feedback
 * **Advanced learners** can expand tasks: build mazes, automate farms, or implement redstone logic
 * **Cross-curricular potential** for integration with math, geography, design & technology
-
----
-
-Would you like a printable version of this mapping as a PDF or Markdown file for your repo?
