@@ -78,29 +78,20 @@ def build_walls():
             agent.turn_right()
         agent.move(UP, 1)
 
-    # Move agent to top-left corner of roof
-    agent.set_assist(PLACE_ON_MOVE, False)
-    agent.move(RIGHT, 1)
-    agent.move(BACK, 5)
-    agent.turn_left()
-
-    agent.set_assist(PLACE_ON_MOVE, True)
-
-    # Build flat 5x5 roof using zigzag pattern
     for row in range(5):
-        for col in range(4):  # Move forward 4 times (5 blocks total with starting position)
-            agent.move(FORWARD, 1)
-        if row < 4:  # Turn and go to next row
-            if row % 2 == 0:
-                agent.turn_right()
-                agent.move(FORWARD, 1)
-                agent.turn_right()
-            else:
-                agent.turn_left()
-                agent.move(FORWARD, 1)
-                agent.turn_left()
+        agent.move(FORWARD, 5)
+        if row % 2 == 1:
+            agent.turn(TurnDirection.LEFT)
+        else:
+            agent.turn(TurnDirection.RIGHT)
+        agent.move(FORWARD,1)
+        if row % 2 == 1:
+            agent.turn(TurnDirection.LEFT)
+        else:
+            agent.turn(TurnDirection.RIGHT)
 
 player.on_chat("wall", build_walls)
+
 ```
 
 ### 🔍 What’s New?
