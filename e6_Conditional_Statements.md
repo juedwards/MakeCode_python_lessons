@@ -37,9 +37,11 @@ Notice that the second line is **indented** or moved inwards from the left margi
 
 ![image](https://github.com/user-attachments/assets/87b32f4f-a425-46b9-921e-bb6501344d10)
 
-3. Create a new project called 'Decisions', then choose the **Python** editor. Clear the default code.
+2. Create a new project called 'Decisions', then choose the **Python** editor. Clear the default code.
 
-![image](https://github.com/user-attachments/assets/c5af1cf9-ddaf-4b5e-8bd1-a6c4a133e779)
+![image](https://github.com/user-attachments/assets/f45ba8e8-20e4-4f7c-a5ad-a49d679155d0)
+
+3. Select Phython.
 
 <img width="410" alt="image" src="https://github.com/user-attachments/assets/18fd0152-6387-47d5-9647-889cca4644e6" />
 
