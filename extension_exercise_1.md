@@ -155,16 +155,7 @@ Imagine mowing the lawn in straight lines:
 
 ---
 
-Would you like a visual diagram or animation to show how this zigzag pattern works?
-
-
----
-
 ### 📝 Reflection
 
 * What happens if you remove the `agent.move(UP, 1)` line?
 * How would you make the walls **longer** or **taller**?
-
----
-
-Would you like me to write this up as a Markdown `.md` file for the repo with headings and formatting?
