@@ -1,11 +1,13 @@
-## 🧱 Extension: Build a 5x5 Agent Wall House
+## 🧱 Unit 7 Extension: Build a 5x5 Agent Wall House
+
+If you've completed all the units to this point, you're ready to start putting it all together and create some useful minecraft stuctures. 
 
 **What you will make:**
 In this challenge, you will program the Agent to build **four tall walls** in a square shape — like the walls of a small stone house!
 
 ### 🎯 What you will learn:
 
-* How to use **loops** inside loops
+* How to use **loops** inside loops - We did that in **unit 5**
 * How to make the Agent **build upwards**
 * How to build a **square wall structure** using code
 
@@ -102,6 +104,58 @@ player.on_chat("wall", build_walls)
   * `col` loop places 5 blocks in each row.
   * At the end of each row, the Agent **zig-zags** to the next row.
 * The Agent **ends up on top** of the wall before building the roof.
+
+### 🔢 What does `%` mean?
+
+```python
+row % 2
+```
+
+This checks whether `row` is **even** or **odd**.
+
+* If `row % 2 == 0`: the number is **even** (like 0, 2, 4)
+* If `row % 2 == 1`: the number is **odd** (like 1, 3, 5)
+
+---
+
+### 🤖 Why use `%` in this code?
+
+You're using it to **zigzag** the Agent across the roof:
+
+```python
+if row % 2 == 1:
+    agent.turn(TurnDirection.LEFT)
+else:
+    agent.turn(TurnDirection.RIGHT)
+```
+
+This pattern makes the Agent:
+
+* Turn **left** at the end of **odd-numbered rows**
+* Turn **right** at the end of **even-numbered rows**
+
+This way, the Agent moves:
+
+* Forward across one row,
+* Turns,
+* Moves down to the next row,
+* Then moves back across in the opposite direction — like a typewriter!
+
+---
+
+### 🧠 Simple Analogy:
+
+Imagine mowing the lawn in straight lines:
+
+* You go across one row,
+* Turn around,
+* Come back the other way.
+  That’s what the `%` is helping the Agent do!
+
+---
+
+Would you like a visual diagram or animation to show how this zigzag pattern works?
+
 
 ---
 
