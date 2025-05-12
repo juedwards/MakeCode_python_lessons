@@ -33,8 +33,21 @@ Notice that the second line is **indented** or moved inwards from the left margi
 
 #### ✅ Step 1: Open Code Builder
 
-1. Press **C** in Minecraft.
-2. Pick **MakeCode**, then choose the **Python** editor.
+1. Press **C** in Minecraft. Pick **MakeCode** if asked.
+
+![image](https://github.com/user-attachments/assets/87b32f4f-a425-46b9-921e-bb6501344d10)
+
+3. Create a new project called 'Decisions', then choose the **Python** editor. Clear the default code.
+
+![image](https://github.com/user-attachments/assets/c5af1cf9-ddaf-4b5e-8bd1-a6c4a133e779)
+
+<img width="410" alt="image" src="https://github.com/user-attachments/assets/18fd0152-6387-47d5-9647-889cca4644e6" />
+
+![image](https://github.com/user-attachments/assets/0064d882-cf4e-4d45-ac5b-ce5888b35395)
+
+![image](https://github.com/user-attachments/assets/340958e3-25e8-470d-a896-0b34a763aacb)
+
+Now you're ready to go!
 
 ---
 
