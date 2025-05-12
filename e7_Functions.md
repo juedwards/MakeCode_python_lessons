@@ -1,4 +1,6 @@
-## 🧩 Exercise 7: Writing Your Own Code Blocks (Functions!)
+![Minecraft Education Logo](images/education-minecraft-logo.png)
+
+## Exercise 7: Writing Your Own Code Blocks (Functions!)
 
 ### 🎯 What You’ll Learn
 
