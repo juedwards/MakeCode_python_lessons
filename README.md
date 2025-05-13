@@ -1,5 +1,7 @@
 ![Minecraft Education Logo](images/education-minecraft-logo.png)
 
+Welcome to MakeCode Python Lessons for Minecraft Education — a structured, beginner-friendly curriculum designed for learners aged 10–14. This series guides students through the fundamentals of programming using Microsoft MakeCode Python inside Minecraft Education. Each unit builds on the last, helping students develop real coding skills while creating and interacting with their own Minecraft worlds. Whether you're teaching in a classroom, running a club, or supporting learners at home, these 20-minute lessons offer everything you need to get started with creative, project-based coding.
+
 ## 📚 MakeCode Python Lessons – Table of Contents
 
 | Unit       | Title                                                                                                    | Description                                                                                                                    |
