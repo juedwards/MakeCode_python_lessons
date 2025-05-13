@@ -1,3 +1,5 @@
+![Minecraft Education Logo](images/education-minecraft-logo.png)
+
 ## 📚 MakeCode Python Lessons – Table of Contents
 
 | Unit       | Title                                                                                                    | Description                                                                                                                    |
