@@ -1,3 +1,5 @@
+![Minecraft Education Logo](images/education-minecraft-logo.png)
+
 ## 🧠 Exercise 8: Using Variables to Store Stuff!
 
 ### 🎯 What You’ll Learn
