@@ -1,3 +1,5 @@
+![Minecraft Education Logo](images/education-minecraft-logo.png)
+
 ## 👩‍🏫 Introduction for Teachers / Educators
 
 ### Welcome to *MakeCode Python Lessons for Minecraft Education*
