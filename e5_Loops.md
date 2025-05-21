@@ -91,7 +91,9 @@ This creates a **5 by 5 platform** of stone blocks:
 ```python
 for x in range(5):
     for z in range(5):
-        blocks.place(STONE, positions.create(x+1, 0, z))
+        spot = player.position()
+        newSpot = spot.add(pos(x+1, 1, z+1))
+        blocks.place(GOLD_BLOCK, newSpot)
 ```
 ![image](https://github.com/user-attachments/assets/c365b87d-7a1e-48e3-b854-d9b16ecfcbb0)
 
@@ -117,7 +119,9 @@ Use a loop to build **upward** using oak planks:
 
 ```python
 for y in range(6):
-    blocks.place(PLANKS_OAK, positions.create(0+1, y, 0+1))
+    spot = player.position()
+    newSpot = spot.add(pos(0+1, y, 0+1))
+    blocks.place(GOLD_BLOCK, newSpot)
 ```
 ![image](https://github.com/user-attachments/assets/c451edd7-24f2-404d-bb99-f7711daf98a2)
 
