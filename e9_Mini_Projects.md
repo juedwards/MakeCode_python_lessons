@@ -1,3 +1,5 @@
+![Minecraft Education Logo](images/education-minecraft-logo.png)
+
 ## 🎮 Exercise 9: Mini Projects and Code Challenges!
 
 ### 🎯 What You’ll Learn
