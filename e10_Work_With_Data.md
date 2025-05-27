@@ -43,6 +43,54 @@ player.on_chat("write", on_chat)
 
 ---
 
+To find and replace `<your name>` in the file path with your actual Windows username, follow these steps:
+
+---
+
+### 🧭 **How to Find `<your name>` on Windows**
+
+1. **Option A – Check your Desktop folder path**
+
+   * Press `Windows + E` to open File Explorer.
+   * Click on **"Desktop"** in the left-hand sidebar.
+   * In the address bar at the top, you’ll see a path like:
+
+     ```
+     C:\Users\justin\Desktop
+     ```
+   * In this example, your username is `justin`.
+
+2. **Option B – Use Command Prompt**
+
+   * Press `Windows + R`, type `cmd`, and hit Enter.
+   * In the black Command Prompt window, type:
+
+     ```
+     echo %USERNAME%
+     ```
+   * It will return your Windows username, e.g.:
+
+     ```
+     justin
+     ```
+
+---
+
+### ✅ **Now Update Your Code**
+
+Replace `<your name>` with your actual username:
+
+```python
+file.write_file("C:/Users/justin/Desktop/agent_instructions.txt", ...)
+```
+
+> ✔️ **Tip**: Avoid putting spaces in folder or file names if you’re manually typing the path in code.
+
+Would you like the lesson to support user selection of file paths interactively with the file picker instead of hardcoding the path?
+
+
+---
+
 ### 🧪 **Task 2 – Read File and Execute Instructions**
 
 Now read the file and parse the lines:
