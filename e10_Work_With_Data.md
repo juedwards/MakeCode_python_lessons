@@ -43,10 +43,6 @@ player.on_chat("write", on_chat)
 
 ---
 
-To find and replace `<your name>` in the file path with your actual Windows username, follow these steps:
-
----
-
 ### 🧭 **How to Find `<your name>` on Windows**
 
 1. **Option A – Check your Desktop folder path**
