@@ -1,3 +1,4 @@
+![Minecraft Education Logo](images/education-minecraft-logo.png)
 
 ## **Lesson 10 – Read and Write Files with the Agent**
 
