@@ -1,6 +1,6 @@
 ![Minecraft Education Logo](images/education-minecraft-logo.png)
 
-## 🔁 Exercise 5: Repeat with Loops!
+## 🔁 Unit 5: Repeat with Loops!
 
 ### 🎯 What You’ll Learn
 
