@@ -14,9 +14,23 @@
 
 If the **Roller Coaster Builder** extension isn't already added:
 
-1. Open the Toolbox in MakeCode.
-2. Click on **Extensions**.
-3. Search for **Roller Coaster Builder** and add it.([github.com][1])
+Create a MakeCode Project called "Rollercoster"
+
+<img width="529" alt="image" src="https://github.com/user-attachments/assets/7360a18f-9892-4dc5-b4c3-4b416439563f" />
+
+<img width="675" alt="image" src="https://github.com/user-attachments/assets/c179567c-69e9-4654-b537-5daafc3fb530" />
+
+Scroll down the MakeCode elements on the left and select "Extensions"
+
+<img width="491" alt="image" src="https://github.com/user-attachments/assets/ded6ca7b-b856-4ad5-8021-2e0c042790cf" />
+
+Search extensions for "Roller Coaster". Then click on it to add the extension.
+
+<img width="673" alt="image" src="https://github.com/user-attachments/assets/e4b875f8-e51b-4d5f-8f4b-1d083ddfdd7b" />
+
+Swtich to Python Code and clear the code.
+
+![image](https://github.com/user-attachments/assets/35e7e530-6b71-4ba2-95db-7f31b95f1faf)
 
 ---
 
