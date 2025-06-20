@@ -148,6 +148,8 @@ player.on_chat("return", on_chat_return)
 ## 🗺️ Step 4: Create a Trail System
 
 ```python
+# Add this to your exisitng code...
+
 # Trail counter
 trail_count = 0
 
@@ -231,6 +233,8 @@ Commands:
 ## 🏠 Step 5: Named Locations System
 
 ```python
+#add this to your existing code
+
 # Save a named location
 def save_location(name):
     # Get current position
