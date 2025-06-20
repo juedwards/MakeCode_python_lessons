@@ -1,1054 +1,553 @@
 ![Minecraft Education Logo](images/education-minecraft-logo.png)
 
-### 📁 Lesson 12: Minecraft Data Adventures - File Read & Write 💾
+### 📁 Lesson 12: Movement Tracker - Record Your Adventures! 🗺️
 
 **Last Updated**: June 20, 2025  
+**Current User**: juedwards
 
 #### 🎯 Learning Objectives:
 
-* Master file reading and writing operations in MakeCode Python
-* Create persistent player data (inventory, scores, achievements)
-* Build an adventure journal system that saves between sessions
-* Design a structure blueprint system for saving and loading builds
-* Implement checkpoint and save game functionality
+* Learn how to read and write files in MakeCode Python
+* Create a movement tracking system that saves your locations
+* Build a trail recorder that remembers where you've been
+* Save and load your favorite locations
 
 ---
 
 #### 📚 Step 1: Understanding File Operations
 
-Before we start coding, let's understand what file operations do:
-- **Write**: Save data to a file (like saving your game)
-- **Read**: Load data from a file (like loading your saved game)
+In this lesson, we'll create a simple movement tracker that saves your positions to a file. This is like leaving breadcrumbs in the forest!
 
-**⚠️ Important File Path Setup**:
-Files will be saved to your computer. You need to update the file path to match your computer:
-- **Windows**: `C:/Users/YOUR_USERNAME/Desktop/`
-- **Example**: If your username is "student", use `C:/Users/student/Desktop/`
+**What we'll build:**
+- A system that records your position when you type a command
+- A way to save multiple locations with names
+- A trail viewer to see where you've been
+- A teleport system to return to saved locations
 
-Create a new MakeCode project called "Data_Adventures"
+Create a new MakeCode project called "Movement_Tracker"
 
 Switch to Python and clear the default code.
 
-**First, let's set up our file path variable:**
-
-```python
-# CHANGE THIS TO YOUR USERNAME!
-MY_USERNAME = "YOUR_USERNAME_HERE"
-FILE_PATH = "C:/Users/" + MY_USERNAME + "/Desktop/"
-
-# Test message
-player.say("Files will save to: " + FILE_PATH)
-```
-
 ---
 
-#### 🏰 Step 2: Create Your First Save System
+#### 🏃 Step 2: Basic Position Recorder
 
-Let's start with a simple player checkpoint system. This code will save your position and score to a file.
-
-**What this code does:**
-- Saves your current checkpoint number
-- Saves your score
-- Saves your exact position (X, Y, Z coordinates)
-- Creates a text file on your desktop
+Let's start by recording your current position to a file.
 
 ```python
-# CHANGE THIS TO YOUR USERNAME!
-MY_USERNAME = "YOUR_USERNAME_HERE"
-FILE_PATH = "C:/Users/" + MY_USERNAME + "/Desktop/"
+# Your Desktop file path
+FILE_PATH = "C:/Users/juedwards/Desktop/"
 
-# Initialize variables FIRST (before any functions)
-current_checkpoint = 0
-player_score = 0
-
-# Save checkpoint function
-def save_checkpoint():
-    global current_checkpoint, player_score
+# Record current position
+def record_position():
     # Get player's current position
-    player_pos = player.position()
+    pos = player.position()
+    x = pos.get_value(Axis.X)
+    y = pos.get_value(Axis.Y)
+    z = pos.get_value(Axis.Z)
     
-    # Create save data as a comma-separated string
-    # Format: checkpoint,score,x,y,z
-    save_data = str(current_checkpoint) + "," + str(player_score) + "," + str(player_pos.get_value(Axis.X)) + "," + str(player_pos.get_value(Axis.Y)) + "," + str(player_pos.get_value(Axis.Z))
-    
-    # Write to file on desktop
-    file.writeFile(FILE_PATH + "checkpoint.txt", save_data)
-    player.say("⭐ Checkpoint Saved to Desktop!")
-
-# Command to save
-def on_chat_save():
-    save_checkpoint()
-player.on_chat("save", on_chat_save)
-
-# Test it!
-player.say("Type 'save' to save your checkpoint!")
-```
-
----
-
-#### 📖 Step 3: Load Your Saved Data
-
-Now let's create a function to load our checkpoint. This reads the file and restores your game state.
-
-**What this code does:**
-- Reads the saved file from your desktop
-- Splits the data to get individual values
-- Restores your checkpoint number and score
-- Teleports you back to your saved position
-- Uses try/except for error handling (in case file doesn't exist)
-
-```python
-# Add this to your existing code
-
-# Load checkpoint function
-def load_checkpoint():
-    global current_checkpoint, player_score
-    
-    try:
-        # Read the file from desktop
-        save_data = file.readFile(FILE_PATH + "checkpoint.txt")
-        
-        # Split the data by commas
-        # save_data looks like: "0,100,50,64,-20"
-        data_parts = save_data.split(",")
-        
-        # Restore values (convert strings back to numbers)
-        current_checkpoint = int(data_parts[0])
-        player_score = int(data_parts[1])
-        
-        # Restore position
-        saved_x = int(data_parts[2])
-        saved_y = int(data_parts[3])
-        saved_z = int(data_parts[4])
-        
-        # Teleport player to saved position
-        player.teleport(pos(saved_x, saved_y, saved_z))
-        
-        player.say("✅ Checkpoint Loaded! Score: " + str(player_score))
-    except:
-        # This runs if the file doesn't exist or has an error
-        player.say("❌ No save file found! Use 'save' first")
-
-# Command to load
-def on_chat_load():
-    load_checkpoint()
-player.on_chat("load", on_chat_load)
-```
-
----
-
-#### 📝 Step 4: Create an Adventure Journal
-
-Let's build a journal system that records your adventures with timestamps.
-
-**What this code does:**
-- Creates a new journal file with a header
-- Adds entries with game time stamps
-- Appends new entries without deleting old ones
-- Can read and display journal contents
-
-```python
-# Add this to your existing code
-
-# Initialize journal - creates a new journal file
-def init_journal():
-    journal_header = "=== MINECRAFT ADVENTURE JOURNAL ===\nStarted on: June 20, 2025\n-------------------\n"
-    file.writeFile(FILE_PATH + "adventure_journal.txt", journal_header)
-    player.say("📔 New journal created on Desktop!")
-
-# Add journal entry
-def add_journal_entry(entry_text):
-    try:
-        # Read existing journal content
-        existing = file.readFile(FILE_PATH + "adventure_journal.txt")
-        
-        # Get current game time
-        time_string = "Time: " + str(gameplay.time_query(GAME_TIME))
-        
-        # Format the new entry with timestamp
-        new_entry = existing + "\n[" + time_string + "] " + entry_text + "\n"
-        
-        # Write updated journal (old content + new entry)
-        file.writeFile(FILE_PATH + "adventure_journal.txt", new_entry)
-        player.say("✍️ Journal updated!")
-    except:
-        player.say("❌ No journal found! Use 'journal_init' first")
-
-# Read journal preview
-def read_journal():
-    try:
-        journal_content = file.readFile(FILE_PATH + "adventure_journal.txt")
-        player.say("📖 Journal Contents:")
-        # Show first 100 characters in chat (chat has character limit)
-        if len(journal_content) > 100:
-            player.say(journal_content[0:100] + "...")
-        else:
-            player.say(journal_content)
-    except:
-        player.say("❌ No journal found! Use 'journal_init' first")
-
-# Journal commands
-def on_chat_journal_init():
-    init_journal()
-player.on_chat("journal_init", on_chat_journal_init)
-
-def on_chat_journal():
-    add_journal_entry("Found diamonds at bedrock level!")
-player.on_chat("journal", on_chat_journal)
-
-def on_chat_read():
-    read_journal()
-player.on_chat("read_journal", on_chat_read)
-```
-
----
-
-#### 🏗️ Step 5: Blueprint System - Save Your Builds!
-
-Create a system to save and load structures. This scans blocks in a 5x5x5 area around you.
-
-**What this code does:**
-- Scans a 5x5x5 area around the player
-- Saves the relative position of each non-air block
-- Stores blueprint data in a text file
-- Can recreate the structure at a new location
-
-```python
-# Add this to your existing code
-
-# Save structure function
-def save_simple_structure(name):
-    """Save a 5x5x5 structure around the player"""
-    blocks_data = []
-    player_pos = player.position()
-    # Get player's position as numbers
-    base_x = player_pos.get_value(Axis.X)
-    base_y = player_pos.get_value(Axis.Y)
-    base_z = player_pos.get_value(Axis.Z)
-    
-    # Scan a 5x5x5 area around player
-    # -2 to 2 gives us 5 blocks in each direction
-    for x in range(-2, 3):
-        for y in range(-1, 4):
-            for z in range(-2, 3):
-                # Calculate absolute position
-                check_pos = pos(base_x + x, base_y + y, base_z + z)
-                # Check if block is not air
-                if not blocks.test_for_block(AIR, check_pos):
-                    # Save relative position and block type
-                    # Format: "x,y,z:BLOCKTYPE"
-                    block_entry = str(x) + "," + str(y) + "," + str(z) + ":STONE"
-                    blocks_data.append(block_entry)
-    
-    # Join all blocks with newlines
-    all_blocks = "\n".join(blocks_data)
+    # Create position string
+    position_data = str(x) + "," + str(y) + "," + str(z)
     
     # Save to file
-    filename = FILE_PATH + "blueprint_" + name + ".txt"
-    file.writeFile(filename, all_blocks)
-    player.say("🏗️ Blueprint '" + name + "' saved to Desktop!")
+    file.writeFile(FILE_PATH + "my_position.txt", position_data)
+    player.say("📍 Position saved: " + position_data)
 
-# Load structure function
-def load_simple_structure(name):
-    """Load a structure at the player's position"""
-    filename = FILE_PATH + "blueprint_" + name + ".txt"
-    player_pos = player.position()
-    # Get player's position as numbers
-    base_x = player_pos.get_value(Axis.X)
-    base_y = player_pos.get_value(Axis.Y)
-    base_z = player_pos.get_value(Axis.Z)
-    
-    try:
-        # Read blueprint file
-        blueprint_data = file.readFile(filename)
-        blocks_list = blueprint_data.split("\n")
-        
-        # Process each block
-        for block_data in blocks_list:
-            if ":" in block_data:
-                # Split position and block type
-                # Format: "x,y,z:BLOCKTYPE"
-                parts = block_data.split(":")
-                pos_string = parts[0]
-                block_type = parts[1]
-                
-                # Split coordinates
-                coords = pos_string.split(",")
-                x = int(coords[0])
-                y = int(coords[1])
-                z = int(coords[2])
-                
-                # Place block at relative position
-                place_pos = pos(base_x + x, base_y + y, base_z + z)
-                blocks.place(STONE, place_pos)
-        
-        player.say("✅ Blueprint '" + name + "' loaded!")
-    except:
-        player.say("❌ Blueprint '" + name + "' not found!")
+# Command to record position
+def on_chat_mark():
+    record_position()
+player.on_chat("mark", on_chat_mark)
 
-# Commands for blueprints
-def on_chat_save_house():
-    save_simple_structure("house")
-player.on_chat("save_house", on_chat_save_house)
-
-def on_chat_load_house():
-    load_simple_structure("house")
-player.on_chat("load_house", on_chat_load_house)
+# Test message
+player.say("Type 'mark' to save your position!")
 ```
 
 ---
 
-#### 🎮 Step 6: Player Stats Tracker (CSV Format)
+#### 📖 Step 3: Load and Teleport to Saved Position
 
-Create a comprehensive stats system using CSV format for easy spreadsheet viewing.
-
-**What this code does:**
-- Tracks multiple player statistics
-- Saves data in CSV format (can open in Excel)
-- Auto-saves every 50 blocks mined
-- Updates stats based on game events
-
-**⚠️ FIXED: Now tracks multiple block types for both mining and placing!**
+Now let's add the ability to return to your saved position.
 
 ```python
-# IMPORTANT: Add these variables at the TOP of your code
-blocks_mined = 0
-blocks_placed = 0
-mobs_defeated = 0
-deaths = 0
+# Add this to your existing code
 
-def save_stats_csv():
-    """Save player statistics to CSV file"""
-    global blocks_mined, blocks_placed, mobs_defeated, deaths
-    # Create CSV data with header row
-    csv_data = "Statistic,Value\n"
-    csv_data = csv_data + "blocks_mined," + str(blocks_mined) + "\n"
-    csv_data = csv_data + "blocks_placed," + str(blocks_placed) + "\n"
-    csv_data = csv_data + "mobs_defeated," + str(mobs_defeated) + "\n"
-    csv_data = csv_data + "deaths," + str(deaths)
-    
-    file.writeFile(FILE_PATH + "player_stats.csv", csv_data)
-    player.say("📊 Stats saved as CSV! Open in Excel!")
-
-def load_stats_csv():
-    """Load player statistics from CSV file"""
-    global blocks_mined, blocks_placed, mobs_defeated, deaths
-    
+# Load and teleport to saved position
+def return_to_position():
     try:
-        stats_data = file.readFile(FILE_PATH + "player_stats.csv")
-        lines = stats_data.split("\n")
+        # Read the saved position
+        saved_data = file.readFile(FILE_PATH + "my_position.txt")
         
-        # Skip header line (line 0) and process data
-        for i in range(1, len(lines)):
-            if "," in lines[i]:
-                parts = lines[i].split(",")
-                stat_name = parts[0]
-                stat_value = int(parts[1])
-                
-                # Update the correct stat
-                if stat_name == "blocks_mined":
-                    blocks_mined = stat_value
-                elif stat_name == "blocks_placed":
-                    blocks_placed = stat_value
-                elif stat_name == "mobs_defeated":
-                    mobs_defeated = stat_value
-                elif stat_name == "deaths":
-                    deaths = stat_value
+        # Split the coordinates
+        coords = saved_data.split(",")
+        x = int(coords[0])
+        y = int(coords[1])
+        z = int(coords[2])
         
-        player.say("📊 Stats loaded from CSV!")
-        show_stats()
+        # Teleport to saved position
+        player.teleport(pos(x, y, z))
+        player.say("✅ Returned to saved position!")
     except:
-        player.say("🆕 Creating new stats file...")
-        save_stats_csv()
+        player.say("❌ No saved position found! Use 'mark' first")
 
-def show_stats():
-    """Display player statistics"""
-    global blocks_mined, blocks_placed, mobs_defeated, deaths
-    player.say("=== PLAYER STATS ===")
-    player.say("⛏️ Blocks Mined: " + str(blocks_mined))
-    player.say("🧱 Blocks Placed: " + str(blocks_placed))
-    player.say("🗡️ Mobs Defeated: " + str(mobs_defeated))
-    player.say("💀 Deaths: " + str(deaths))
-
-# === IMPROVED EVENT TRACKING (FIXED) ===
-# Track mining of multiple block types
-def on_block_broken_any():
-    global blocks_mined
-    blocks_mined = blocks_mined + 1
-    check_achievement_mine_100()
-    if blocks_mined % 50 == 0:
-        save_stats_csv()
-
-# Register multiple block types for mining
-blocks.on_block_broken(GRASS, on_block_broken_any)
-blocks.on_block_broken(STONE, on_block_broken_any)
-blocks.on_block_broken(DIRT, on_block_broken_any)
-blocks.on_block_broken(SAND, on_block_broken_any)
-blocks.on_block_broken(GRAVEL, on_block_broken_any)
-blocks.on_block_broken(LOG_OAK, on_block_broken_any)
-blocks.on_block_broken(COBBLESTONE, on_block_broken_any)
-
-# Track placing of multiple block types
-def on_block_placed_any():
-    global blocks_placed
-    blocks_placed = blocks_placed + 1
-    # Show message every 10 blocks
-    if blocks_placed % 10 == 0:
-        player.say("🧱 Blocks placed: " + str(blocks_placed))
-
-# Register multiple block types for placing
-blocks.on_block_placed(STONE, on_block_placed_any)
-blocks.on_block_placed(DIRT, on_block_placed_any)
-blocks.on_block_placed(PLANKS_OAK, on_block_placed_any)
-blocks.on_block_placed(COBBLESTONE, on_block_placed_any)
-blocks.on_block_placed(GLASS, on_block_placed_any)
-blocks.on_block_placed(WOOL, on_block_placed_any)
-blocks.on_block_placed(BRICKS, on_block_placed_any)
-blocks.on_block_placed(SAND, on_block_placed_any)
-
-# Manual commands as backup
-def on_chat_add_placed():
-    global blocks_placed
-    blocks_placed = blocks_placed + 1
-    player.say("📦 Added 1 to blocks placed. Total: " + str(blocks_placed))
-    
-player.on_chat("add_placed", on_chat_add_placed)
-
-# Commands
-def on_chat_stats():
-    show_stats()
-player.on_chat("stats", on_chat_stats)
-
-def on_chat_save_stats():
-    save_stats_csv()
-player.on_chat("save_stats", on_chat_save_stats)
-
-def on_chat_load_stats():
-    load_stats_csv()
-player.on_chat("load_stats", on_chat_load_stats)
+# Command to return
+def on_chat_return():
+    return_to_position()
+player.on_chat("return", on_chat_return)
 ```
 
 ---
 
-#### 🏆 Step 7: Achievement System with Timestamps
+#### 🗺️ Step 4: Create a Trail System
 
-Create an achievement tracker that saves when you earned each achievement.
-
-**What this code does:**
-- Tracks multiple achievements
-- Records when each was earned
-- Saves in CSV format
-- Automatically checks for achievement completion
+Let's upgrade our system to record multiple positions as a trail.
 
 ```python
-# IMPORTANT: Add these variables at the TOP
-achievement_first_save = False
-achievement_mine_100 = False
-achievement_build_house = False
-achievement_date_first_save = ""
-achievement_date_mine_100 = ""
-achievement_date_build_house = ""
+# Trail counter
+trail_count = 0
 
-def get_timestamp():
-    """Get current game time"""
-    return "Time: " + str(gameplay.time_query(GAME_TIME))
+# Initialize trail file
+def start_trail():
+    global trail_count
+    trail_count = 0
+    # Create header for trail file
+    header = "=== MOVEMENT TRAIL ===\nStarted: June 20, 2025\n\n"
+    file.writeFile(FILE_PATH + "movement_trail.txt", header)
+    player.say("🚶 New trail started!")
 
-def check_achievement_first_save():
-    global achievement_first_save, achievement_date_first_save
-    if not achievement_first_save:
-        achievement_first_save = True
-        achievement_date_first_save = get_timestamp()
-        player.say("🏆 Achievement Unlocked: Data Keeper!")
-        save_achievements_csv()
+# Add position to trail
+def add_to_trail():
+    global trail_count
+    try:
+        # Read existing trail
+        existing = file.readFile(FILE_PATH + "movement_trail.txt")
+        
+        # Get current position
+        pos = player.position()
+        x = pos.get_value(Axis.X)
+        y = pos.get_value(Axis.Y)
+        z = pos.get_value(Axis.Z)
+        
+        # Increment trail count
+        trail_count = trail_count + 1
+        
+        # Add new position with number
+        new_entry = existing + "Point " + str(trail_count) + ": " + str(x) + "," + str(y) + "," + str(z) + "\n"
+        
+        # Save updated trail
+        file.writeFile(FILE_PATH + "movement_trail.txt", new_entry)
+        player.say("📍 Point " + str(trail_count) + " added to trail!")
+    except:
+        player.say("❌ No trail found! Use 'start_trail' first")
 
-def check_achievement_mine_100():
-    global achievement_mine_100, achievement_date_mine_100, blocks_mined
-    if not achievement_mine_100 and blocks_mined >= 100:
-        achievement_mine_100 = True
-        achievement_date_mine_100 = get_timestamp()
-        player.say("🏆 Achievement Unlocked: Century Miner!")
-        save_achievements_csv()
+# View trail summary
+def view_trail():
+    try:
+        trail_data = file.readFile(FILE_PATH + "movement_trail.txt")
+        player.say("🗺️ Trail Points: " + str(trail_count))
+        # Show last position only (due to chat limits)
+        lines = trail_data.split("\n")
+        if len(lines) > 3:
+            player.say("Last: " + lines[len(lines) - 2])
+    except:
+        player.say("❌ No trail found!")
 
-def check_achievement_build_house():
-    global achievement_build_house, achievement_date_build_house
-    if not achievement_build_house:
-        achievement_build_house = True
-        achievement_date_build_house = get_timestamp()
-        player.say("🏆 Achievement Unlocked: Architect!")
-        save_achievements_csv()
+# Trail commands
+def on_chat_start_trail():
+    start_trail()
+player.on_chat("start_trail", on_chat_start_trail)
 
-def save_achievements_csv():
-    """Save achievements to CSV file"""
-    global achievement_first_save, achievement_mine_100, achievement_build_house
-    global achievement_date_first_save, achievement_date_mine_100, achievement_date_build_house
-    
-    csv_data = "Achievement,Completed,Date Earned\n"
-    csv_data = csv_data + "Data Keeper," + str(achievement_first_save) + "," + achievement_date_first_save + "\n"
-    csv_data = csv_data + "Century Miner," + str(achievement_mine_100) + "," + achievement_date_mine_100 + "\n"
-    csv_data = csv_data + "Architect," + str(achievement_build_house) + "," + achievement_date_build_house
-    
-    file.writeFile(FILE_PATH + "achievements.csv", csv_data)
-    player.say("🏆 Achievements saved!")
+def on_chat_trail():
+    add_to_trail()
+player.on_chat("trail", on_chat_trail)
 
-def show_achievements():
-    global achievement_first_save, achievement_mine_100, achievement_build_house
-    global achievement_date_first_save, achievement_date_mine_100, achievement_date_build_house
-    
-    player.say("=== ACHIEVEMENTS ===")
-    status1 = "✅" if achievement_first_save else "❌"
-    status2 = "✅" if achievement_mine_100 else "❌"
-    status3 = "✅" if achievement_build_house else "❌"
-    
-    date1 = " (" + achievement_date_first_save + ")" if achievement_first_save else ""
-    date2 = " (" + achievement_date_mine_100 + ")" if achievement_mine_100 else ""
-    date3 = " (" + achievement_date_build_house + ")" if achievement_build_house else ""
-    
-    player.say(status1 + " Data Keeper" + date1)
-    player.say(status2 + " Century Miner" + date2)
-    player.say(status3 + " Architect" + date3)
-
-def on_chat_achievements():
-    show_achievements()
-player.on_chat("achievements", on_chat_achievements)
+def on_chat_view_trail():
+    view_trail()
+player.on_chat("view_trail", on_chat_view_trail)
 ```
 
 ---
 
-#### ✅ Complete Adventure System Code
+#### 🏠 Step 5: Named Locations System
 
-Here's the full integrated system. Remember to change MY_USERNAME to your actual username!
+Let's create a system to save locations with custom names like "home", "mine", etc.
 
 ```python
-# === IMPORTANT: CHANGE THIS TO YOUR USERNAME! ===
-MY_USERNAME = "YOUR_USERNAME_HERE"
-FILE_PATH = "C:/Users/" + MY_USERNAME + "/Desktop/"
-
-# === DECLARE ALL VARIABLES AT THE TOP ===
-# Checkpoint system variables
-current_checkpoint = 0
-player_score = 0
-
-# Stats system variables
-blocks_mined = 0
-blocks_placed = 0
-mobs_defeated = 0
-deaths = 0
-
-# Achievement system variables
-achievement_first_save = False
-achievement_mine_100 = False
-achievement_build_house = False
-achievement_date_first_save = ""
-achievement_date_mine_100 = ""
-achievement_date_build_house = ""
-
-# === CHECKPOINT SYSTEM ===
-def save_checkpoint():
-    global current_checkpoint, player_score
-    player_pos = player.position()
-    save_data = str(current_checkpoint) + "," + str(player_score) + "," + str(player_pos.get_value(Axis.X)) + "," + str(player_pos.get_value(Axis.Y)) + "," + str(player_pos.get_value(Axis.Z))
-    file.writeFile(FILE_PATH + "checkpoint.txt", save_data)
-    player.say("⭐ Checkpoint Saved to Desktop!")
-    check_achievement_first_save()
-
-def load_checkpoint():
-    global current_checkpoint, player_score
-    try:
-        save_data = file.readFile(FILE_PATH + "checkpoint.txt")
-        data_parts = save_data.split(",")
-        current_checkpoint = int(data_parts[0])
-        player_score = int(data_parts[1])
-        saved_x = int(data_parts[2])
-        saved_y = int(data_parts[3])
-        saved_z = int(data_parts[4])
-        player.teleport(pos(saved_x, saved_y, saved_z))
-        player.say("✅ Checkpoint Loaded! Score: " + str(player_score))
-    except:
-        player.say("❌ No save file found!")
-
-# === JOURNAL SYSTEM ===
-def init_journal():
-    journal_header = "=== MINECRAFT ADVENTURE JOURNAL ===\nStarted on: June 20, 2025\n-------------------\n"
-    file.writeFile(FILE_PATH + "adventure_journal.txt", journal_header)
-    player.say("📔 New journal created on Desktop!")
-
-def add_journal_entry(entry_text):
-    try:
-        existing = file.readFile(FILE_PATH + "adventure_journal.txt")
-        time_string = "Time: " + str(gameplay.time_query(GAME_TIME))
-        new_entry = existing + "\n[" + time_string + "] " + entry_text + "\n"
-        file.writeFile(FILE_PATH + "adventure_journal.txt", new_entry)
-        player.say("✍️ Journal updated!")
-    except:
-        player.say("❌ No journal found! Use 'journal_init' first")
-
-def read_journal():
-    try:
-        journal_content = file.readFile(FILE_PATH + "adventure_journal.txt")
-        player.say("📖 Journal Contents:")
-        if len(journal_content) > 100:
-            player.say(journal_content[0:100] + "...")
-        else:
-            player.say(journal_content)
-    except:
-        player.say("❌ No journal found! Use 'journal_init' first")
-
-# === SIMPLIFIED BLUEPRINT SYSTEM ===
-def save_simple_structure(name):
-    """Save a 5x5x5 structure around the player"""
-    blocks_data = []
-    player_pos = player.position()
-    base_x = player_pos.get_value(Axis.X)
-    base_y = player_pos.get_value(Axis.Y)
-    base_z = player_pos.get_value(Axis.Z)
+# Save a named location
+def save_location(name):
+    # Get current position
+    pos = player.position()
+    x = pos.get_value(Axis.X)
+    y = pos.get_value(Axis.Y)
+    z = pos.get_value(Axis.Z)
     
-    for x in range(-2, 3):
-        for y in range(-1, 4):
-            for z in range(-2, 3):
-                check_pos = pos(base_x + x, base_y + y, base_z + z)
-                if not blocks.test_for_block(AIR, check_pos):
-                    block_entry = str(x) + "," + str(y) + "," + str(z) + ":STONE"
-                    blocks_data.append(block_entry)
+    # Create location data
+    location_data = str(x) + "," + str(y) + "," + str(z)
     
-    all_blocks = "\n".join(blocks_data)
-    filename = FILE_PATH + "blueprint_" + name + ".txt"
-    file.writeFile(filename, all_blocks)
-    player.say("🏗️ Blueprint '" + name + "' saved to Desktop!")
+    # Save with custom filename
+    filename = FILE_PATH + "location_" + name + ".txt"
+    file.writeFile(filename, location_data)
+    player.say("🏠 Location '" + name + "' saved!")
 
-def load_simple_structure(name):
-    """Load a structure at the player's position"""
-    filename = FILE_PATH + "blueprint_" + name + ".txt"
-    player_pos = player.position()
-    base_x = player_pos.get_value(Axis.X)
-    base_y = player_pos.get_value(Axis.Y)
-    base_z = player_pos.get_value(Axis.Z)
-    
+# Load a named location
+def go_to_location(name):
     try:
-        blueprint_data = file.readFile(filename)
-        blocks_list = blueprint_data.split("\n")
+        # Read the location file
+        filename = FILE_PATH + "location_" + name + ".txt"
+        location_data = file.readFile(filename)
         
-        for block_data in blocks_list:
-            if ":" in block_data:
-                parts = block_data.split(":")
-                pos_string = parts[0]
-                coords = pos_string.split(",")
-                x = int(coords[0])
-                y = int(coords[1])
-                z = int(coords[2])
-                place_pos = pos(base_x + x, base_y + y, base_z + z)
-                blocks.place(STONE, place_pos)
+        # Split coordinates
+        coords = location_data.split(",")
+        x = int(coords[0])
+        y = int(coords[1])
+        z = int(coords[2])
         
-        player.say("✅ Blueprint '" + name + "' loaded!")
+        # Teleport
+        player.teleport(pos(x, y, z))
+        player.say("✅ Teleported to '" + name + "'!")
     except:
-        player.say("❌ Blueprint '" + name + "' not found!")
+        player.say("❌ Location '" + name + "' not found!")
 
-# === STATS SYSTEM (CSV) ===
-def save_stats_csv():
-    global blocks_mined, blocks_placed, mobs_defeated, deaths
-    csv_data = "Statistic,Value\n"
-    csv_data = csv_data + "blocks_mined," + str(blocks_mined) + "\n"
-    csv_data = csv_data + "blocks_placed," + str(blocks_placed) + "\n"
-    csv_data = csv_data + "mobs_defeated," + str(mobs_defeated) + "\n"
-    csv_data = csv_data + "deaths," + str(deaths)
-    file.writeFile(FILE_PATH + "player_stats.csv", csv_data)
-    player.say("📊 Stats saved as CSV!")
+# Commands for named locations
+def on_chat_save_home():
+    save_location("home")
+player.on_chat("save_home", on_chat_save_home)
 
-def load_stats_csv():
-    global blocks_mined, blocks_placed, mobs_defeated, deaths
+def on_chat_go_home():
+    go_to_location("home")
+player.on_chat("go_home", on_chat_go_home)
+
+def on_chat_save_mine():
+    save_location("mine")
+player.on_chat("save_mine", on_chat_save_mine)
+
+def on_chat_go_mine():
+    go_to_location("mine")
+player.on_chat("go_mine", on_chat_go_mine)
+```
+
+---
+
+#### ✅ Complete Movement Tracker System
+
+Here's the full code with all features combined:
+
+```python
+# === MOVEMENT TRACKER SYSTEM ===
+# File path to Desktop
+FILE_PATH = "C:/Users/juedwards/Desktop/"
+
+# Trail counter
+trail_count = 0
+
+# === BASIC POSITION RECORDING ===
+def record_position():
+    # Get player's current position
+    pos = player.position()
+    x = pos.get_value(Axis.X)
+    y = pos.get_value(Axis.Y)
+    z = pos.get_value(Axis.Z)
+    
+    # Create position string
+    position_data = str(x) + "," + str(y) + "," + str(z)
+    
+    # Save to file
+    file.writeFile(FILE_PATH + "my_position.txt", position_data)
+    player.say("📍 Position saved: " + position_data)
+
+def return_to_position():
     try:
-        stats_data = file.readFile(FILE_PATH + "player_stats.csv")
-        lines = stats_data.split("\n")
-        for i in range(1, len(lines)):
-            if "," in lines[i]:
-                parts = lines[i].split(",")
-                if parts[0] == "blocks_mined":
-                    blocks_mined = int(parts[1])
-                elif parts[0] == "blocks_placed":
-                    blocks_placed = int(parts[1])
-                elif parts[0] == "mobs_defeated":
-                    mobs_defeated = int(parts[1])
-                elif parts[0] == "deaths":
-                    deaths = int(parts[1])
-        player.say("📊 Stats loaded!")
+        # Read the saved position
+        saved_data = file.readFile(FILE_PATH + "my_position.txt")
+        
+        # Split the coordinates
+        coords = saved_data.split(",")
+        x = int(coords[0])
+        y = int(coords[1])
+        z = int(coords[2])
+        
+        # Teleport to saved position
+        player.teleport(pos(x, y, z))
+        player.say("✅ Returned to saved position!")
     except:
-        save_stats_csv()
+        player.say("❌ No saved position found! Use 'mark' first")
 
-# === ACHIEVEMENT SYSTEM ===
-def get_timestamp():
-    return "Time: " + str(gameplay.time_query(GAME_TIME))
+# === TRAIL SYSTEM ===
+def start_trail():
+    global trail_count
+    trail_count = 0
+    # Create header for trail file
+    header = "=== MOVEMENT TRAIL ===\nStarted: June 20, 2025\n\n"
+    file.writeFile(FILE_PATH + "movement_trail.txt", header)
+    player.say("🚶 New trail started!")
 
-def check_achievement_first_save():
-    global achievement_first_save, achievement_date_first_save
-    if not achievement_first_save:
-        achievement_first_save = True
-        achievement_date_first_save = get_timestamp()
-        player.say("🏆 Achievement Unlocked: Data Keeper!")
-        save_achievements_csv()
-
-def check_achievement_mine_100():
-    global achievement_mine_100, achievement_date_mine_100, blocks_mined
-    if not achievement_mine_100 and blocks_mined >= 100:
-        achievement_mine_100 = True
-        achievement_date_mine_100 = get_timestamp()
-        player.say("🏆 Achievement Unlocked: Century Miner!")
-        save_achievements_csv()
-
-def check_achievement_build_house():
-    global achievement_build_house, achievement_date_build_house
-    if not achievement_build_house:
-        achievement_build_house = True
-        achievement_date_build_house = get_timestamp()
-        player.say("🏆 Achievement Unlocked: Architect!")
-        save_achievements_csv()
-
-def save_achievements_csv():
-    global achievement_first_save, achievement_mine_100, achievement_build_house
-    global achievement_date_first_save, achievement_date_mine_100, achievement_date_build_house
-    csv_data = "Achievement,Completed,Date Earned\n"
-    csv_data = csv_data + "Data Keeper," + str(achievement_first_save) + "," + achievement_date_first_save + "\n"
-    csv_data = csv_data + "Century Miner," + str(achievement_mine_100) + "," + achievement_date_mine_100 + "\n"
-    csv_data = csv_data + "Architect," + str(achievement_build_house) + "," + achievement_date_build_house
-    file.writeFile(FILE_PATH + "achievements.csv", csv_data)
-
-def load_achievements_csv():
-    global achievement_first_save, achievement_mine_100, achievement_build_house
-    global achievement_date_first_save, achievement_date_mine_100, achievement_date_build_house
-    
+def add_to_trail():
+    global trail_count
     try:
-        achv_data = file.readFile(FILE_PATH + "achievements.csv")
-        lines = achv_data.split("\n")
+        # Read existing trail
+        existing = file.readFile(FILE_PATH + "movement_trail.txt")
         
-        for i in range(1, len(lines)):
-            if "," in lines[i]:
-                parts = lines[i].split(",")
-                if len(parts) >= 3:
-                    achv_name = parts[0]
-                    completed = parts[1] == "True"
-                    date = parts[2] if len(parts) > 2 else ""
-                    
-                    if achv_name == "Data Keeper":
-                        achievement_first_save = completed
-                        achievement_date_first_save = date
-                    elif achv_name == "Century Miner":
-                        achievement_mine_100 = completed
-                        achievement_date_mine_100 = date
-                    elif achv_name == "Architect":
-                        achievement_build_house = completed
-                        achievement_date_build_house = date
+        # Get current position
+        pos = player.position()
+        x = pos.get_value(Axis.X)
+        y = pos.get_value(Axis.Y)
+        z = pos.get_value(Axis.Z)
         
-        player.say("🏆 Achievements loaded!")
+        # Increment trail count
+        trail_count = trail_count + 1
+        
+        # Add new position with number
+        new_entry = existing + "Point " + str(trail_count) + ": " + str(x) + "," + str(y) + "," + str(z) + "\n"
+        
+        # Save updated trail
+        file.writeFile(FILE_PATH + "movement_trail.txt", new_entry)
+        player.say("📍 Point " + str(trail_count) + " added to trail!")
     except:
-        player.say("🆕 Creating new achievements file...")
-        save_achievements_csv()
+        player.say("❌ No trail found! Use 'start_trail' first")
 
-# === DISPLAY FUNCTIONS ===
-def show_stats():
-    global blocks_mined, blocks_placed, mobs_defeated, deaths
-    player.say("=== PLAYER STATS ===")
-    player.say("⛏️ Blocks Mined: " + str(blocks_mined))
-    player.say("🧱 Blocks Placed: " + str(blocks_placed))
-    player.say("🗡️ Mobs Defeated: " + str(mobs_defeated))
-    player.say("💀 Deaths: " + str(deaths))
+def view_trail():
+    try:
+        trail_data = file.readFile(FILE_PATH + "movement_trail.txt")
+        player.say("🗺️ Trail Points: " + str(trail_count))
+        # Show last position only (due to chat limits)
+        lines = trail_data.split("\n")
+        if len(lines) > 3:
+            player.say("Last: " + lines[len(lines) - 2])
+    except:
+        player.say("❌ No trail found!")
 
-def show_achievements():
-    global achievement_first_save, achievement_mine_100, achievement_build_house
-    global achievement_date_first_save, achievement_date_mine_100, achievement_date_build_house
+# === NAMED LOCATIONS ===
+def save_location(name):
+    # Get current position
+    pos = player.position()
+    x = pos.get_value(Axis.X)
+    y = pos.get_value(Axis.Y)
+    z = pos.get_value(Axis.Z)
     
-    player.say("=== ACHIEVEMENTS ===")
-    status1 = "✅" if achievement_first_save else "❌"
-    status2 = "✅" if achievement_mine_100 else "❌"
-    status3 = "✅" if achievement_build_house else "❌"
+    # Create location data with game time
+    time_stamp = str(gameplay.time_query(GAME_TIME))
+    location_data = str(x) + "," + str(y) + "," + str(z) + "," + time_stamp
     
-    date1 = " (" + achievement_date_first_save + ")" if achievement_first_save else ""
-    date2 = " (" + achievement_date_mine_100 + ")" if achievement_mine_100 else ""
-    date3 = " (" + achievement_date_build_house + ")" if achievement_build_house else ""
+    # Save with custom filename
+    filename = FILE_PATH + "location_" + name + ".txt"
+    file.writeFile(filename, location_data)
+    player.say("🏠 Location '" + name + "' saved!")
+
+def go_to_location(name):
+    try:
+        # Read the location file
+        filename = FILE_PATH + "location_" + name + ".txt"
+        location_data = file.readFile(filename)
+        
+        # Split data
+        parts = location_data.split(",")
+        x = int(parts[0])
+        y = int(parts[1])
+        z = int(parts[2])
+        
+        # Teleport
+        player.teleport(pos(x, y, z))
+        player.say("✅ Teleported to '" + name + "'!")
+        
+        # Show when it was saved (if available)
+        if len(parts) > 3:
+            player.say("📅 Saved at game time: " + parts[3])
+    except:
+        player.say("❌ Location '" + name + "' not found!")
+
+# === ALL LOCATIONS LIST ===
+def save_all_locations():
+    try:
+        # Read existing list
+        existing = file.readFile(FILE_PATH + "all_locations.txt")
+    except:
+        # Create new file if doesn't exist
+        existing = "=== ALL SAVED LOCATIONS ===\n\n"
     
-    player.say(status1 + " Data Keeper" + date1)
-    player.say(status2 + " Century Miner" + date2)
-    player.say(status3 + " Architect" + date3)
-
-# === MASTER SAVE/LOAD ===
-def save_all():
-    save_checkpoint()
-    save_stats_csv()
-    save_achievements_csv()
-    player.say("💾 All data saved to Desktop!")
-
-def load_all():
-    load_checkpoint()
-    load_stats_csv()
-    load_achievements_csv()
-    player.say("📂 All data loaded from Desktop!")
+    # Get current position
+    pos = player.position()
+    x = pos.get_value(Axis.X)
+    y = pos.get_value(Axis.Y)
+    z = pos.get_value(Axis.Z)
+    
+    # Add to list with timestamp
+    time_stamp = str(gameplay.time_query(GAME_TIME))
+    new_entry = existing + "Time " + time_stamp + ": " + str(x) + "," + str(y) + "," + str(z) + "\n"
+    
+    # Save updated list
+    file.writeFile(FILE_PATH + "all_locations.txt", new_entry)
+    player.say("📝 Added to locations list!")
 
 # === COMMANDS ===
-def on_chat_save():
-    save_checkpoint()
-player.on_chat("save", on_chat_save)
+# Basic position commands
+def on_chat_mark():
+    record_position()
+player.on_chat("mark", on_chat_mark)
 
-def on_chat_load():
-    load_checkpoint()
-player.on_chat("load", on_chat_load)
+def on_chat_return():
+    return_to_position()
+player.on_chat("return", on_chat_return)
 
-def on_chat_journal_init():
-    init_journal()
-player.on_chat("journal_init", on_chat_journal_init)
+# Trail commands
+def on_chat_start_trail():
+    start_trail()
+player.on_chat("start_trail", on_chat_start_trail)
 
-def on_chat_journal():
-    add_journal_entry("Exploring new territories!")
-player.on_chat("journal", on_chat_journal)
+def on_chat_trail():
+    add_to_trail()
+player.on_chat("trail", on_chat_trail)
 
-def on_chat_read_journal():
-    read_journal()
-player.on_chat("read_journal", on_chat_read_journal)
+def on_chat_view_trail():
+    view_trail()
+player.on_chat("view_trail", on_chat_view_trail)
 
-def on_chat_stats():
-    show_stats()
-player.on_chat("stats", on_chat_stats)
+# Named location commands
+def on_chat_save_home():
+    save_location("home")
+player.on_chat("save_home", on_chat_save_home)
 
-def on_chat_achievements():
-    show_achievements()
-player.on_chat("achievements", on_chat_achievements)
+def on_chat_go_home():
+    go_to_location("home")
+player.on_chat("go_home", on_chat_go_home)
 
-def on_chat_save_all():
-    save_all()
-player.on_chat("save_all", on_chat_save_all)
+def on_chat_save_mine():
+    save_location("mine")
+player.on_chat("save_mine", on_chat_save_mine)
 
-def on_chat_load_all():
-    load_all()
-player.on_chat("load_all", on_chat_load_all)
+def on_chat_go_mine():
+    go_to_location("mine")
+player.on_chat("go_mine", on_chat_go_mine)
 
-def on_chat_save_house():
-    save_simple_structure("house")
-    check_achievement_build_house()
+def on_chat_save_farm():
+    save_location("farm")
+player.on_chat("save_farm", on_chat_save_farm)
 
-player.on_chat("save_house", on_chat_save_house)
+def on_chat_go_farm():
+    go_to_location("farm")
+player.on_chat("go_farm", on_chat_go_farm)
 
-def on_chat_load_house():
-    load_simple_structure("house")
+# List locations
+def on_chat_save_list():
+    save_all_locations()
+player.on_chat("save_list", on_chat_save_list)
 
-player.on_chat("load_house", on_chat_load_house)
-
-# === IMPROVED EVENT TRACKING (FIXED) ===
-# Track mining of multiple block types
-def on_block_broken_any():
-    global blocks_mined
-    blocks_mined = blocks_mined + 1
-    check_achievement_mine_100()
-    if blocks_mined % 50 == 0:
-        save_stats_csv()
-
-# Register multiple block types for mining
-blocks.on_block_broken(GRASS, on_block_broken_any)
-blocks.on_block_broken(STONE, on_block_broken_any)
-blocks.on_block_broken(DIRT, on_block_broken_any)
-blocks.on_block_broken(SAND, on_block_broken_any)
-blocks.on_block_broken(GRAVEL, on_block_broken_any)
-blocks.on_block_broken(LOG_OAK, on_block_broken_any)
-blocks.on_block_broken(COBBLESTONE, on_block_broken_any)
-
-# Track placing of multiple block types
-def on_block_placed_any():
-    global blocks_placed
-    blocks_placed = blocks_placed + 1
-    # Show message every 10 blocks
-    if blocks_placed % 10 == 0:
-        player.say("🧱 Blocks placed: " + str(blocks_placed))
-
-# Register multiple block types for placing
-blocks.on_block_placed(STONE, on_block_placed_any)
-blocks.on_block_placed(DIRT, on_block_placed_any)
-blocks.on_block_placed(PLANKS_OAK, on_block_placed_any)
-blocks.on_block_placed(COBBLESTONE, on_block_placed_any)
-blocks.on_block_placed(GLASS, on_block_placed_any)
-blocks.on_block_placed(WOOL, on_block_placed_any)
-blocks.on_block_placed(BRICKS, on_block_placed_any)
-blocks.on_block_placed(SAND, on_block_placed_any)
-
-# Manual command as backup
-def on_chat_add_placed():
-    global blocks_placed
-    blocks_placed = blocks_placed + 1
-    player.say("📦 Added 1 to blocks placed. Total: " + str(blocks_placed))
-    
-player.on_chat("add_placed", on_chat_add_placed)
-
-# === HELP SYSTEM ===
+# Help command
 def on_chat_help():
-    player.say("=== DATA ADVENTURE COMMANDS ===")
-    player.say("save/load - Checkpoint system")
-    player.say("journal_init/journal - Adventure log")
-    player.say("read_journal - Read your journal")
-    player.say("stats - View statistics")
-    player.say("achievements - View achievements")
-    player.say("save_house/load_house - Blueprint system")
-    player.say("save_all/load_all - Complete save")
-    player.say("add_placed - Manually add to blocks placed")
-    player.say("📁 Files save to: " + FILE_PATH)
+    player.say("=== MOVEMENT TRACKER ===")
+    player.say("📍 BASIC: mark, return")
+    player.say("🚶 TRAIL: start_trail, trail, view_trail")
+    player.say("🏠 LOCATIONS: save_home, go_home")
+    player.say("⛏️ save_mine, go_mine")
+    player.say("🌾 save_farm, go_farm")
+    player.say("📝 save_list - Add to master list")
 
 player.on_chat("help", on_chat_help)
 
-# Initialize on start
-player.say("🎮 Data Adventure System Ready!")
-player.say("⚠️ IMPORTANT: Change MY_USERNAME in the code!")
+# Initialize
+player.say("🗺️ Movement Tracker Ready!")
 player.say("💡 Type 'help' for commands")
-player.say("📁 Files will save to: " + FILE_PATH)
+player.say("📁 Files save to Desktop")
 ```
 
 ---
 
-#### 🕹️ How to Use the Data System
+#### 🕹️ How to Use the Movement Tracker
 
-1. **FIRST**: Open the code and change `MY_USERNAME = "YOUR_USERNAME_HERE"` to your actual Windows username
-2. Click the green play ▶️ button to run the code
-3. Use these chat commands:
-   - `help` - Show all available commands
-   - `save` - Save checkpoint to Desktop
-   - `load` - Load checkpoint from Desktop
-   - `journal_init` - Create journal on Desktop
-   - `journal` - Add entry to journal
-   - `read_journal` - View journal contents
-   - `stats` - View your statistics
-   - `achievements` - View achievements
-   - `save_house`/`load_house` - Save and load structures
-   - `save_all` - Save everything
-   - `load_all` - Load everything
-   - `add_placed` - Manually increment blocks placed counter
+**Basic Commands:**
+- `mark` - Save your current position
+- `return` - Teleport back to marked position
+
+**Trail Commands:**
+- `start_trail` - Begin a new trail
+- `trail` - Add current position to trail
+- `view_trail` - See how many points in trail
+
+**Location Commands:**
+- `save_home` - Save current position as "home"
+- `go_home` - Teleport to home
+- `save_mine` - Save as "mine"
+- `go_mine` - Teleport to mine
+- `save_farm` - Save as "farm"
+- `go_farm` - Teleport to farm
+
+**Other:**
+- `save_list` - Add position to master list
+- `help` - Show all commands
 
 ---
 
-#### 🧠 Advanced Challenges
+#### 🧠 Fun Challenges
 
-1. **Multi-Player Save System**:
-```python
-def save_player_data(player_name):
-    filename = FILE_PATH + "stats_" + player_name + ".csv"
-    data = "Player," + player_name + "\nScore," + str(player_score)
-    file.writeFile(filename, data)
+1. **Create a Treasure Hunt**:
+   - Save 5 locations as treasure1, treasure2, etc.
+   - Give the coordinate files to a friend
+   - See if they can find all your treasures!
+
+2. **Trail Art**:
+   - Start a trail
+   - Walk in a pattern (square, circle, star)
+   - Open the trail file to see your path!
+
+3. **Base Network**:
+   - Save multiple bases (base1, base2, base3)
+   - Create a quick travel system between them
+
+---
+
+#### 📊 Understanding the Files
+
+**my_position.txt**:
+```
+125,64,-200
+```
+Simple X,Y,Z coordinates
+
+**movement_trail.txt**:
+```
+=== MOVEMENT TRAIL ===
+Started: June 20, 2025
+
+Point 1: 100,64,100
+Point 2: 110,64,100
+Point 3: 120,64,100
 ```
 
-2. **Automatic Backup System**:
-```python
-def create_backup():
-    try:
-        original = file.readFile(FILE_PATH + "checkpoint.txt")
-        backup_name = FILE_PATH + "checkpoint_backup.txt"
-        file.writeFile(backup_name, original)
-        player.say("📋 Backup created!")
-    except:
-        player.say("❌ No checkpoint to backup!")
+**location_home.txt**:
 ```
-
-3. **High Score System**:
-```python
-def update_high_score(score):
-    high_score = 0
-    try:
-        high_score_data = file.readFile(FILE_PATH + "highscore.txt")
-        high_score = int(high_score_data)
-    except:
-        pass
-    
-    if score > high_score:
-        file.writeFile(FILE_PATH + "highscore.txt", str(score))
-        player.say("🏅 NEW HIGH SCORE: " + str(score))
+150,70,-50,1200
 ```
-
-4. **Track More Block Types**:
-```python
-# Add these to your event tracking
-blocks.on_block_placed(GOLD_BLOCK, on_block_placed_any)
-blocks.on_block_placed(DIAMOND_BLOCK, on_block_placed_any)
-blocks.on_block_placed(IRON_BLOCK, on_block_placed_any)
-blocks.on_block_placed(REDSTONE_BLOCK, on_block_placed_any)
-
-# Track valuable blocks separately
-valuable_blocks_placed = 0
-
-def on_valuable_block_placed():
-    global valuable_blocks_placed
-    valuable_blocks_placed = valuable_blocks_placed + 1
-    player.say("💎 Valuable block placed!")
-
-blocks.on_block_placed(DIAMOND_BLOCK, on_valuable_block_placed)
-blocks.on_block_placed(GOLD_BLOCK, on_valuable_block_placed)
-```
+X,Y,Z coordinates plus game time
 
 ---
 
 #### 💡 Pro Tips
 
-1. **Username Setup**: ALWAYS change MY_USERNAME first!
-2. **Block Tracking**: The fixed code now tracks 8 common block types for mining and placing
-3. **Manual Override**: Use `add_placed` if a block type isn't being tracked
-4. **CSV Format**: Stats and achievements open in Excel
-5. **Error Handling**: Try/except blocks prevent crashes
-6. **Testing**: Place different block types to ensure tracking works
-
----
-
-#### 🚨 Common Issues & Solutions
-
-| Problem | Solution |
-|---------|----------|
-| "No save file found!" | Make sure you saved first with the save command |
-| Files not appearing | Check that you changed MY_USERNAME correctly |
-| Blocks placed not counting | Try placing stone, dirt, or oak planks. Use `add_placed` for other blocks |
-| Stats not updating | Type `save_stats` to manually save, then check the CSV file |
-| Can't find Desktop folder | Try using Documents folder instead |
-
----
-
-#### 📊 Understanding the Data Files
-
-**checkpoint.txt**:
-```
-0,100,125,64,-200
-```
-Format: checkpoint_number,score,x,y,z
-
-**player_stats.csv**:
-```
-Statistic,Value
-blocks_mined,150
-blocks_placed,75
-mobs_defeated,10
-deaths,2
-```
-
-**adventure_journal.txt**:
-```
-=== MINECRAFT ADVENTURE JOURNAL ===
-Started on: June 20, 2025
--------------------
-
-[Time: 1200] Found diamonds at bedrock level!
-[Time: 1500] Built my first house!
-```
+1. **Organization**: Name your locations clearly (home, mine, farm)
+2. **Trail Markers**: Use `trail` at corners or important spots
+3. **Backup**: The `mark` command is great for temporary saves
+4. **Exploration**: Start a trail before exploring new areas
 
 ---
 
 #### 🎓 What You've Learned
 
-- ✅ File I/O operations (read/write)
-- ✅ Data persistence between game sessions
-- ✅ CSV format for spreadsheet compatibility
+- ✅ File writing with `file.writeFile()`
+- ✅ File reading with `file.readFile()`
+- ✅ Position tracking with `player.position()`
+- ✅ String manipulation with `split()`
 - ✅ Error handling with try/except
-- ✅ String manipulation and parsing
-- ✅ Event-driven programming with multiple block types
-- ✅ Global variables and scope
-- ✅ Data serialization techniques
-- ✅ File path management
-- ✅ Automatic save systems
+- ✅ Creating reusable teleport systems
+- ✅ Building a breadcrumb trail
+- ✅ Managing multiple save files
 
 ---
 
-#### 📝 Testing Checklist
+#### 🚀 Next Steps
 
-- [ ] Changed MY_USERNAME to your actual username
-- [ ] Typed `save` and checked Desktop for checkpoint.txt
-- [ ] Placed some stone/dirt blocks and checked if counter increased
-- [ ] Typed `stats` to view current statistics
-- [ ] Mined 100+ blocks to unlock achievement
-- [ ] Used `save_house` near a small structure
-- [ ] Typed `save_all` to save everything at once
-- [ ] Opened CSV files in Excel to verify format
+Now that you understand file operations, you could:
+- Add more named locations
+- Create a coordinate display system
+- Build an automatic trail recorder
+- Make a multiplayer meeting point system
+- Design a race checkpoint tracker
+
+Remember: Every adventure is worth recording! 🗺️
