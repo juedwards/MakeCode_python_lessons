@@ -2,7 +2,7 @@
 
 ### 📁 Lesson 12: Minecraft Data Adventures - File Read & Write 💾
 
-**Last Updated**: June 19, 2025  
+**Last Updated**: June 20, 2025  
 
 #### 🎯 Learning Objectives:
 
@@ -152,7 +152,7 @@ Let's build a journal system that records your adventures with timestamps.
 
 # Initialize journal - creates a new journal file
 def init_journal():
-    journal_header = "=== MINECRAFT ADVENTURE JOURNAL ===\nStarted on: Day 1\n-------------------\n"
+    journal_header = "=== MINECRAFT ADVENTURE JOURNAL ===\nStarted on: June 20, 2025\n-------------------\n"
     file.writeFile(FILE_PATH + "adventure_journal.txt", journal_header)
     player.say("📔 New journal created on Desktop!")
 
@@ -308,6 +308,8 @@ Create a comprehensive stats system using CSV format for easy spreadsheet viewin
 - Auto-saves every 50 blocks mined
 - Updates stats based on game events
 
+**⚠️ FIXED: Now tracks multiple block types for both mining and placing!**
+
 ```python
 # IMPORTANT: Add these variables at the TOP of your code
 blocks_mined = 0
@@ -368,21 +370,49 @@ def show_stats():
     player.say("🗡️ Mobs Defeated: " + str(mobs_defeated))
     player.say("💀 Deaths: " + str(deaths))
 
-# Track events - these run automatically when events happen
-def on_block_broken_grass():
+# === IMPROVED EVENT TRACKING (FIXED) ===
+# Track mining of multiple block types
+def on_block_broken_any():
     global blocks_mined
     blocks_mined = blocks_mined + 1
-    # Auto-save every 50 blocks
+    check_achievement_mine_100()
     if blocks_mined % 50 == 0:
         save_stats_csv()
 
-blocks.on_block_broken(GRASS, on_block_broken_grass)
+# Register multiple block types for mining
+blocks.on_block_broken(GRASS, on_block_broken_any)
+blocks.on_block_broken(STONE, on_block_broken_any)
+blocks.on_block_broken(DIRT, on_block_broken_any)
+blocks.on_block_broken(SAND, on_block_broken_any)
+blocks.on_block_broken(GRAVEL, on_block_broken_any)
+blocks.on_block_broken(LOG_OAK, on_block_broken_any)
+blocks.on_block_broken(COBBLESTONE, on_block_broken_any)
 
-def on_block_placed_stone():
+# Track placing of multiple block types
+def on_block_placed_any():
     global blocks_placed
     blocks_placed = blocks_placed + 1
+    # Show message every 10 blocks
+    if blocks_placed % 10 == 0:
+        player.say("🧱 Blocks placed: " + str(blocks_placed))
 
-blocks.on_block_placed(STONE, on_block_placed_stone)
+# Register multiple block types for placing
+blocks.on_block_placed(STONE, on_block_placed_any)
+blocks.on_block_placed(DIRT, on_block_placed_any)
+blocks.on_block_placed(PLANKS_OAK, on_block_placed_any)
+blocks.on_block_placed(COBBLESTONE, on_block_placed_any)
+blocks.on_block_placed(GLASS, on_block_placed_any)
+blocks.on_block_placed(WOOL, on_block_placed_any)
+blocks.on_block_placed(BRICKS, on_block_placed_any)
+blocks.on_block_placed(SAND, on_block_placed_any)
+
+# Manual commands as backup
+def on_chat_add_placed():
+    global blocks_placed
+    blocks_placed = blocks_placed + 1
+    player.say("📦 Added 1 to blocks placed. Total: " + str(blocks_placed))
+    
+player.on_chat("add_placed", on_chat_add_placed)
 
 # Commands
 def on_chat_stats():
@@ -538,7 +568,7 @@ def load_checkpoint():
 
 # === JOURNAL SYSTEM ===
 def init_journal():
-    journal_header = "=== MINECRAFT ADVENTURE JOURNAL ===\nStarted on: Day 1\n-------------------\n"
+    journal_header = "=== MINECRAFT ADVENTURE JOURNAL ===\nStarted on: June 20, 2025\n-------------------\n"
     file.writeFile(FILE_PATH + "adventure_journal.txt", journal_header)
     player.say("📔 New journal created on Desktop!")
 
@@ -798,21 +828,49 @@ def on_chat_load_house():
 
 player.on_chat("load_house", on_chat_load_house)
 
-# === EVENT TRACKING ===
-def on_block_broken_grass():
+# === IMPROVED EVENT TRACKING (FIXED) ===
+# Track mining of multiple block types
+def on_block_broken_any():
     global blocks_mined
     blocks_mined = blocks_mined + 1
     check_achievement_mine_100()
     if blocks_mined % 50 == 0:
         save_stats_csv()
 
-blocks.on_block_broken(GRASS, on_block_broken_grass)
+# Register multiple block types for mining
+blocks.on_block_broken(GRASS, on_block_broken_any)
+blocks.on_block_broken(STONE, on_block_broken_any)
+blocks.on_block_broken(DIRT, on_block_broken_any)
+blocks.on_block_broken(SAND, on_block_broken_any)
+blocks.on_block_broken(GRAVEL, on_block_broken_any)
+blocks.on_block_broken(LOG_OAK, on_block_broken_any)
+blocks.on_block_broken(COBBLESTONE, on_block_broken_any)
 
-def on_block_placed_stone():
+# Track placing of multiple block types
+def on_block_placed_any():
     global blocks_placed
     blocks_placed = blocks_placed + 1
+    # Show message every 10 blocks
+    if blocks_placed % 10 == 0:
+        player.say("🧱 Blocks placed: " + str(blocks_placed))
 
-blocks.on_block_placed(STONE, on_block_placed_stone)
+# Register multiple block types for placing
+blocks.on_block_placed(STONE, on_block_placed_any)
+blocks.on_block_placed(DIRT, on_block_placed_any)
+blocks.on_block_placed(PLANKS_OAK, on_block_placed_any)
+blocks.on_block_placed(COBBLESTONE, on_block_placed_any)
+blocks.on_block_placed(GLASS, on_block_placed_any)
+blocks.on_block_placed(WOOL, on_block_placed_any)
+blocks.on_block_placed(BRICKS, on_block_placed_any)
+blocks.on_block_placed(SAND, on_block_placed_any)
+
+# Manual command as backup
+def on_chat_add_placed():
+    global blocks_placed
+    blocks_placed = blocks_placed + 1
+    player.say("📦 Added 1 to blocks placed. Total: " + str(blocks_placed))
+    
+player.on_chat("add_placed", on_chat_add_placed)
 
 # === HELP SYSTEM ===
 def on_chat_help():
@@ -824,6 +882,7 @@ def on_chat_help():
     player.say("achievements - View achievements")
     player.say("save_house/load_house - Blueprint system")
     player.say("save_all/load_all - Complete save")
+    player.say("add_placed - Manually add to blocks placed")
     player.say("📁 Files save to: " + FILE_PATH)
 
 player.on_chat("help", on_chat_help)
@@ -853,6 +912,7 @@ player.say("📁 Files will save to: " + FILE_PATH)
    - `save_house`/`load_house` - Save and load structures
    - `save_all` - Save everything
    - `load_all` - Load everything
+   - `add_placed` - Manually increment blocks placed counter
 
 ---
 
@@ -893,16 +953,24 @@ def update_high_score(score):
         player.say("🏅 NEW HIGH SCORE: " + str(score))
 ```
 
-4. **Custom Save Location**:
+4. **Track More Block Types**:
 ```python
-# Let players choose their save location
-SAVE_LOCATIONS = {
-    "desktop": "C:/Users/" + MY_USERNAME + "/Desktop/",
-    "documents": "C:/Users/" + MY_USERNAME + "/Documents/",
-    "minecraft": "C:/Users/" + MY_USERNAME + "/Documents/Minecraft_Saves/"
-}
+# Add these to your event tracking
+blocks.on_block_placed(GOLD_BLOCK, on_block_placed_any)
+blocks.on_block_placed(DIAMOND_BLOCK, on_block_placed_any)
+blocks.on_block_placed(IRON_BLOCK, on_block_placed_any)
+blocks.on_block_placed(REDSTONE_BLOCK, on_block_placed_any)
 
-# Use like: FILE_PATH = SAVE_LOCATIONS["documents"]
+# Track valuable blocks separately
+valuable_blocks_placed = 0
+
+def on_valuable_block_placed():
+    global valuable_blocks_placed
+    valuable_blocks_placed = valuable_blocks_placed + 1
+    player.say("💎 Valuable block placed!")
+
+blocks.on_block_placed(DIAMOND_BLOCK, on_valuable_block_placed)
+blocks.on_block_placed(GOLD_BLOCK, on_valuable_block_placed)
 ```
 
 ---
@@ -910,11 +978,11 @@ SAVE_LOCATIONS = {
 #### 💡 Pro Tips
 
 1. **Username Setup**: ALWAYS change MY_USERNAME first!
-2. **File Locations**: Default is Desktop, but you can change FILE_PATH
-3. **CSV Format**: Stats and achievements open in Excel
-4. **Error Handling**: Try/except blocks prevent crashes
-5. **String Conversion**: Always use str() for numbers in files
-6. **Testing**: Test save before load to avoid errors
+2. **Block Tracking**: The fixed code now tracks 8 common block types for mining and placing
+3. **Manual Override**: Use `add_placed` if a block type isn't being tracked
+4. **CSV Format**: Stats and achievements open in Excel
+5. **Error Handling**: Try/except blocks prevent crashes
+6. **Testing**: Place different block types to ensure tracking works
 
 ---
 
@@ -924,8 +992,9 @@ SAVE_LOCATIONS = {
 |---------|----------|
 | "No save file found!" | Make sure you saved first with the save command |
 | Files not appearing | Check that you changed MY_USERNAME correctly |
+| Blocks placed not counting | Try placing stone, dirt, or oak planks. Use `add_placed` for other blocks |
+| Stats not updating | Type `save_stats` to manually save, then check the CSV file |
 | Can't find Desktop folder | Try using Documents folder instead |
-| Numbers showing as text in CSV | This is normal - Excel will recognize them |
 
 ---
 
@@ -949,7 +1018,7 @@ deaths,2
 **adventure_journal.txt**:
 ```
 === MINECRAFT ADVENTURE JOURNAL ===
-Started on: Day 1
+Started on: June 20, 2025
 -------------------
 
 [Time: 1200] Found diamonds at bedrock level!
@@ -965,8 +1034,21 @@ Started on: Day 1
 - ✅ CSV format for spreadsheet compatibility
 - ✅ Error handling with try/except
 - ✅ String manipulation and parsing
-- ✅ Event-driven programming
+- ✅ Event-driven programming with multiple block types
 - ✅ Global variables and scope
 - ✅ Data serialization techniques
 - ✅ File path management
 - ✅ Automatic save systems
+
+---
+
+#### 📝 Testing Checklist
+
+- [ ] Changed MY_USERNAME to your actual username
+- [ ] Typed `save` and checked Desktop for checkpoint.txt
+- [ ] Placed some stone/dirt blocks and checked if counter increased
+- [ ] Typed `stats` to view current statistics
+- [ ] Mined 100+ blocks to unlock achievement
+- [ ] Used `save_house` near a small structure
+- [ ] Typed `save_all` to save everything at once
+- [ ] Opened CSV files in Excel to verify format
