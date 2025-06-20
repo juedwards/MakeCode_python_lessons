@@ -41,10 +41,10 @@ FILE_PATH = "C:/Users/juedwards/Desktop/"
 # Record current position
 def record_position():
     # Get player's current position
-    pos = player.position()
-    x = pos.get_value(Axis.X)
-    y = pos.get_value(Axis.Y)
-    z = pos.get_value(Axis.Z)
+    player_pos = player.position()
+    x = player_pos.get_value(Axis.X)
+    y = player_pos.get_value(Axis.Y)
+    z = player_pos.get_value(Axis.Z)
     
     # Create position string
     position_data = str(x) + "," + str(y) + "," + str(z)
@@ -122,10 +122,10 @@ def add_to_trail():
         existing = file.readFile(FILE_PATH + "movement_trail.txt")
         
         # Get current position
-        pos = player.position()
-        x = pos.get_value(Axis.X)
-        y = pos.get_value(Axis.Y)
-        z = pos.get_value(Axis.Z)
+        player_pos = player.position()
+        x = player_pos.get_value(Axis.X)
+        y = player_pos.get_value(Axis.Y)
+        z = player_pos.get_value(Axis.Z)
         
         # Increment trail count
         trail_count = trail_count + 1
@@ -175,10 +175,10 @@ Let's create a system to save locations with custom names like "home", "mine", e
 # Save a named location
 def save_location(name):
     # Get current position
-    pos = player.position()
-    x = pos.get_value(Axis.X)
-    y = pos.get_value(Axis.Y)
-    z = pos.get_value(Axis.Z)
+    player_pos = player.position()
+    x = player_pos.get_value(Axis.X)
+    y = player_pos.get_value(Axis.Y)
+    z = player_pos.get_value(Axis.Z)
     
     # Create location data
     location_data = str(x) + "," + str(y) + "," + str(z)
@@ -242,10 +242,10 @@ trail_count = 0
 # === BASIC POSITION RECORDING ===
 def record_position():
     # Get player's current position
-    pos = player.position()
-    x = pos.get_value(Axis.X)
-    y = pos.get_value(Axis.Y)
-    z = pos.get_value(Axis.Z)
+    player_pos = player.position()
+    x = player_pos.get_value(Axis.X)
+    y = player_pos.get_value(Axis.Y)
+    z = player_pos.get_value(Axis.Z)
     
     # Create position string
     position_data = str(x) + "," + str(y) + "," + str(z)
@@ -287,10 +287,10 @@ def add_to_trail():
         existing = file.readFile(FILE_PATH + "movement_trail.txt")
         
         # Get current position
-        pos = player.position()
-        x = pos.get_value(Axis.X)
-        y = pos.get_value(Axis.Y)
-        z = pos.get_value(Axis.Z)
+        player_pos = player.position()
+        x = player_pos.get_value(Axis.X)
+        y = player_pos.get_value(Axis.Y)
+        z = player_pos.get_value(Axis.Z)
         
         # Increment trail count
         trail_count = trail_count + 1
@@ -318,10 +318,10 @@ def view_trail():
 # === NAMED LOCATIONS ===
 def save_location(name):
     # Get current position
-    pos = player.position()
-    x = pos.get_value(Axis.X)
-    y = pos.get_value(Axis.Y)
-    z = pos.get_value(Axis.Z)
+    player_pos = player.position()
+    x = player_pos.get_value(Axis.X)
+    y = player_pos.get_value(Axis.Y)
+    z = player_pos.get_value(Axis.Z)
     
     # Create location data with game time
     time_stamp = str(gameplay.time_query(GAME_TIME))
@@ -364,10 +364,10 @@ def save_all_locations():
         existing = "=== ALL SAVED LOCATIONS ===\n\n"
     
     # Get current position
-    pos = player.position()
-    x = pos.get_value(Axis.X)
-    y = pos.get_value(Axis.Y)
-    z = pos.get_value(Axis.Z)
+    player_pos = player.position()
+    x = player_pos.get_value(Axis.X)
+    y = player_pos.get_value(Axis.Y)
+    z = player_pos.get_value(Axis.Z)
     
     # Add to list with timestamp
     time_stamp = str(gameplay.time_query(GAME_TIME))
@@ -491,6 +491,18 @@ player.say("📁 Files save to Desktop")
    - Save multiple bases (base1, base2, base3)
    - Create a quick travel system between them
 
+4. **Add More Locations**:
+```python
+# Add custom locations
+def on_chat_save_castle():
+    save_location("castle")
+player.on_chat("save_castle", on_chat_save_castle)
+
+def on_chat_go_castle():
+    go_to_location("castle")
+player.on_chat("go_castle", on_chat_go_castle)
+```
+
 ---
 
 #### 📊 Understanding the Files
@@ -525,6 +537,7 @@ X,Y,Z coordinates plus game time
 2. **Trail Markers**: Use `trail` at corners or important spots
 3. **Backup**: The `mark` command is great for temporary saves
 4. **Exploration**: Start a trail before exploring new areas
+5. **File Names**: Check your Desktop for all the .txt files created!
 
 ---
 
