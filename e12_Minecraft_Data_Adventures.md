@@ -80,7 +80,7 @@ player.say("Type 'mark' to save your position!")
 ### 🧩 Code Explained – Step 2
 
 1. **`MY_USERNAME` and `FILE_PATH`**
-   *Address of your notebook.* Change MY_USERNAME to your Windows username. This tells the computer where to save files.
+   *Address of your notebook.* Change put_your_windows_name_here to your Windows username. This tells the computer where to save files.
 
 2. **`player.position()`**
    *Ask Minecraft, "Where am I?"* It gives X (east/west), Y (up/down), Z (north/south).
