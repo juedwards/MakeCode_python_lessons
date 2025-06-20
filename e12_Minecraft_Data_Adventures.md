@@ -1,13 +1,13 @@
 ![Minecraft Education Logo](images/education-minecraft-logo.png)
 
-### 📁 Lesson 12: Movement Tracker – Record Your Adventures! 🗺️
+### Lesson 12: Movement Tracker – Record Your Adventures! 🗺️
 
 **Last Updated**: June 20, 2025
 
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 
 * **Read & write files** in MakeCode Python
 * **Record where you walk** in Minecraft
@@ -20,7 +20,7 @@
 
 ---
 
-## 📚 Step 1: Understanding File Operations
+## Step 1: Understanding File Operations
 
 In this lesson we'll create a movement tracker that drops an *invisible breadcrumb* (a line in a text file) whenever you tell it to.
 
@@ -34,7 +34,7 @@ In this lesson we'll create a movement tracker that drops an *invisible breadcru
 Create a new MakeCode project called **"Movement\_Tracker"**.
 Switch to **Python** and clear the default code.
 
-### 🧩 Code Explained – Step 1
+### Code Explained – Step 1
 
 | Fancy Word | Plain-English Meaning                                      |
 | ---------- | ---------------------------------------------------------- |
@@ -46,7 +46,7 @@ Think of the file as your digital map book. We'll write in it ("I was at X,Y,Z")
 
 ---
 
-## 🏃 Step 2: Basic Position Recorder
+## Step 2: Basic Position Recorder
 
 ```python
 # CHANGE THIS TO YOUR USERNAME!
@@ -77,7 +77,7 @@ player.on_chat("mark", on_chat_mark)
 player.say("Type 'mark' to save your position!")
 ```
 
-### 🧩 Code Explained – Step 2
+### Code Explained – Step 2
 
 1. **`MY_USERNAME` and `FILE_PATH`**
    *Address of your notebook.* Change put_your_windows_name_here to your Windows username. This tells the computer where to save files.
@@ -97,7 +97,7 @@ player.say("Type 'mark' to save your position!")
 
 ---
 
-## 📖 Step 3: Load and Teleport to Saved Position
+## Step 3: Load and Teleport to Saved Position
 
 ```python
 # Add this to your existing code
@@ -126,7 +126,7 @@ def on_chat_return():
 player.on_chat("return", on_chat_return)
 ```
 
-### 🧩 Code Explained – Step 3
+### Code Explained – Step 3
 
 1. **`file.readFile(...)`**
    *Open the notebook* and read the line we wrote earlier.
@@ -288,7 +288,7 @@ def on_chat_go_mine():
 player.on_chat("go_mine", on_chat_go_mine)
 ```
 
-### 🧩 Code Explained – Step 5
+### Code Explained – Step 5
 
 * **One file per place** – We name the file **location\_home.txt** or **location\_mine.txt**.
   Think of each as a sticky note on your desk.
@@ -529,7 +529,7 @@ player.say("Type 'help' for commands")
 player.say("Files save to: " + FILE_PATH)
 ```
 
-### 🧩 Code Explained – All Together
+### Code Explained – All Together
 
 When you load the world, the script says **"Movement Tracker Ready!"**
 Now you can:
@@ -558,7 +558,7 @@ Now you can:
 
 ---
 
-## 🧠 Fun Challenges
+## Fun Challenges
 
 1. **Treasure Hunt**
    Save spots `treasure1`-`treasure5`, share the files with a friend, and race them!
@@ -584,7 +584,7 @@ player.on_chat("go_castle", on_chat_go_castle)
 
 ---
 
-## 📊 Understanding the Files
+## Understanding the Files
 
 | File                    | Example Contents  | Meaning             |
 | ----------------------- | ----------------- | ------------------- |
@@ -603,7 +603,7 @@ Point 3: 120,64,100
 
 ---
 
-## 💡 Pro Tips
+## Pro Tips
 
 1. **Clear Names** – "home", "mine", "farm" are easy to remember.
 2. **Trail Corners** – Drop a `trail` crumb whenever you turn.
@@ -613,7 +613,7 @@ Point 3: 120,64,100
 
 ---
 
-## 🎓 What You Learned
+## What You Learned
 
 ☑️ Writing & reading files  
 ☑️ Asking Minecraft for your position  
@@ -624,7 +624,7 @@ Point 3: 120,64,100
 
 ---
 
-## 🚀 Next Steps
+## Next Steps
 
 * Add **more named spots** (villages, strongholds, portals)
 * Show your **live coordinates** on screen
@@ -632,4 +632,4 @@ Point 3: 120,64,100
 * Make a **multiplayer meeting point**
 * Design a **race checkpoint timer**
 
-Remember: every adventure leaves footprints – now you can see yours! 🗺️🎉
+Remember: every adventure leaves footprints – now you can see yours.
