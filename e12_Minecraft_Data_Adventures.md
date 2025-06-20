@@ -1,10 +1,4 @@
-![Minecraft Education Logo](images/education-minecraft-logo.png)
-
-### 📁 Lesson 12: Movement Tracker – Record Your Adventures! 🗺️
-
-**Last Updated**: June 20, 2025![Minecraft Education Logo](images/education-minecraft-logo.png)
-
-### 📁 Lesson 12: Movement Tracker – Record Your Adventures! 🗺️
+### 📁 Lesson 12: Movement Tracker – Record Your Adventures in Data! 🗺️
 
 **Last Updated**: June 20, 2025
 
