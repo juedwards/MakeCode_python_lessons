@@ -1,13 +1,13 @@
 ![Minecraft Education Logo](images/education-minecraft-logo.png)
 
-### 🏰 Lesson 13: Castle Builder - Design in CSV, Build in Minecraft! 📊
+### Lesson 13: Castle Builder - Design in CSV, Build in Minecraft!
 
 **Last Updated**: June 20, 2025 01:16:40 UTC  
 **Current User**: juedwards
 
 ---
 
-## 🎯 Learning Objectives
+## Learning Objectives
 
 * **Design structures** using CSV spreadsheets
 * **Read CSV files** and parse the data
@@ -20,7 +20,7 @@
 
 ---
 
-## 📚 Step 1: Understanding CSV Castle Building
+## Step 1: Understanding CSV Castle Building
 
 CSV (Comma-Separated Values) files are like simple spreadsheets. We'll use them as blueprints for our castle!
 
@@ -45,13 +45,13 @@ Switch to **Python** and clear the default code.
 
 ---
 
-## 🧱 Step 2: Basic CSV Reader
+## Step 2: Basic CSV Reader
 
 Let's start with code that reads a simple CSV file and builds from it.
 
 ```python
 # CHANGE THIS TO YOUR USERNAME!
-MY_USERNAME = "juedwards"
+MY_USERNAME = "USERNAME"
 FILE_PATH = "C:/Users/" + MY_USERNAME + "/Desktop/"
 
 # Read and build from CSV
@@ -97,7 +97,7 @@ player.say("Castle Builder Ready!")
 player.say("Create CSV files on your Desktop")
 ```
 
-### 🧩 Code Explained - Basic Reader
+### Code Explained - Basic Reader
 
 1. **`csv_data.split("\n")`** - Splits the file into separate lines
 2. **`lines[i].split(",")`** - Splits each line at commas to get X,Y,Z,Block
@@ -106,7 +106,7 @@ player.say("Create CSV files on your Desktop")
 
 ---
 
-## 🏰 Step 3: Castle Wall Builder
+## Step 3: Castle Wall Builder
 
 Now let's create a function that builds castle walls from a CSV pattern.
 
@@ -152,7 +152,7 @@ def on_chat_build_wall():
 player.on_chat("build_wall", on_chat_build_wall)
 ```
 
-### 🧩 Code Explained - Wall Builder
+### Code Explained - Wall Builder
 
 - **Battlements** - Every other block on top (x % 2 == 0)
 - **Dynamic positioning** - Starts at player location
@@ -160,7 +160,7 @@ player.on_chat("build_wall", on_chat_build_wall)
 
 ---
 
-## 🗼 Step 4: Tower Generator
+## Step 4: Tower Generator
 
 Let's add circular towers to our castle!
 
@@ -221,7 +221,7 @@ player.on_chat("build_tower", on_chat_build_tower)
 
 ---
 
-## 🏰 Step 5: Complete Castle System
+## Step 5: Complete Castle System
 
 Here's the full castle builder with all components!
 
@@ -469,7 +469,7 @@ X,Y,Z,Block
 
 ---
 
-## 🕹️ How to Use Castle Builder
+## 🕹How to Use Castle Builder
 
 1. **Type `design`** - Creates complete castle blueprint CSV
 2. **Type `build`** - Builds the castle from the CSV
@@ -482,7 +482,7 @@ X,Y,Z,Block
 
 ---
 
-## 🧠 Fun Challenges
+## Fun Challenges
 
 1. **Custom Castle Sizes**
 ```python
@@ -511,7 +511,7 @@ player.on_chat("small", on_chat_small_castle)
 
 ---
 
-## 💡 Pro Tips
+## Pro Tips
 
 1. **Start Small** - Test with small structures first
 2. **Check CSV** - Open in Excel to verify your design
