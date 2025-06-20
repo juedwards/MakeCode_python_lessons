@@ -227,7 +227,7 @@ Here's the full castle builder with all components!
 ```python
 # === CASTLE BUILDER SYSTEM ===
 # CHANGE THIS TO YOUR USERNAME!
-MY_USERNAME = "juedwards"
+MY_USERNAME = "USERNAME"
 FILE_PATH = "C:/Users/" + MY_USERNAME + "/Desktop/"
 
 # Castle settings
