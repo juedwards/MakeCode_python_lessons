@@ -2,8 +2,7 @@
 
 ### Lesson 13: Castle Builder - Design in CSV, Build in Minecraft!
 
-**Last Updated**: June 20, 2025 01:16:40 UTC  
-**Current User**: juedwards
+**Last Updated**: June 20, 2025 
 
 ---
 
